@@ -177,45 +177,18 @@
   .tile:hover img, .tile:hover video { transform: scale(1.015); }
   .tile:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 
-  /* plates: the copy on the left, two sand films at full height on the right, on the films' own black */
-  .slide.black { background: #000000; }
-  .plates {
-    height: calc(100vh - 2 * var(--fgap)); height: calc(100svh - 2 * var(--fgap));
-    display: grid; grid-template-columns: minmax(16rem, 0.5fr) minmax(0, 1fr); gap: calc(var(--pad) * 1.5);
-  }
-  .plates-copy { display: grid; grid-template-rows: auto minmax(var(--pad), 1fr) auto; min-width: 0; }
-  .plates-copy .copy { grid-row: 3; }
-  .plates-copy .copy { max-width: 36rem; }
-  .plates-copy .statement { font-size: calc(var(--statement) * 0.8); line-height: 1.2; }
-  .plates-copy .pairs { grid-template-columns: minmax(0, 1fr); }
-  .sand { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); min-height: 0; }
-  .sand .tile { height: 100%; background: #000000; }
-  .sand .tile video { object-fit: contain; transform: scale(var(--zoom, 1)); }
-  .sand .tile:hover video { transform: scale(calc(var(--zoom, 1) * 1.015)); }
-
-  /* three references: one tall image, two wide films stacked beside it */
-  .grid.trio { grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr); }
-  .grid.trio .tall { grid-row: 1 / span 2; }
+  /* grid variants: how many columns the references need. A tall tile spans two rows, a wide one two columns. */
+  .grid .tall { grid-row: span 2; }
+  .grid .wide { grid-column: span 2; }
   .grid.duo { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
-  /* four vertical films: one row of tall columns */
-  .grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
-  /* five references: one tall film, then two pairs beside it (the small tiles match a 3x2 tile) */
-  .grid.solo .tall { grid-row: span 2; }
-  /* seven references: tall, pair, tall, pair, tall */
-  .grid.rhythm { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .grid.rhythm .tall { grid-row: span 2; }
   .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
-  /* five references: a tall image, two wide films stacked beside it, two vertical films */
+  .grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
+  .grid.cols4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .grid.cols5, .grid.rhythm { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  /* one tall image beside two wide films stacked */
+  .grid.trio { grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr); }
+  /* a tall image, two wide films stacked beside it, two vertical films */
   .grid.mix { grid-template-columns: minmax(0, 1fr) minmax(0, 1.52fr) minmax(0, 1fr) minmax(0, 1fr); }   /* wide tiles = a 3x2 tile */
-  .grid.mix .tall { grid-row: span 2; }
-  /* plates with two films: two tall columns; with one film, it fills the right side */
-  .sand.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .sand.one { grid-template-columns: minmax(0, 1fr); }
-  /* a film on a coloured ground: its edges fade into the black so the object floats */
-  .sand .tile video.float {
-    -webkit-mask-image: radial-gradient(circle closest-side, #000 80%, transparent 100%);
-    mask-image: radial-gradient(circle closest-side, #000 80%, transparent 100%);
-  }
   .name.two-lines { line-height: 0.98; }   /* same leading as the two-line transitions: room for the accent on MATÉRIA */
 
   /* big bang, cover: the middle film edge to edge on every screen; the name over it.
@@ -292,26 +265,16 @@
 
   /* ------------------------------------------------ small screens */
   /* openers: the statement starts below the act navigation, which now spans most of the top line */
-  /* plates side by side: the films also start below the act navigation */
-  @media (min-aspect-ratio: 5/4) { .plates .sand { margin-top: var(--below-head); } }
   @media (max-width: 900px) {
     .slide:not(.bb-title) { padding-top: calc(var(--pad) + 36px); }   /* room for the act navigation */
     .copy { max-width: none; }
   }
   @media (max-aspect-ratio: 5/4) {
-    .plates { height: auto; grid-template-columns: minmax(0, 1fr); }
-    .plates-copy { grid-template-rows: auto auto; gap: var(--pad); }
-    .plates-copy .copy { grid-row: auto; }
-    .sand { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .sand .tile { height: auto; aspect-ratio: 9 / 16; }
     .grid.trio { grid-template-columns: minmax(0, 1fr); grid-template-rows: repeat(3, minmax(0, 1fr)); }
     .grid.trio .tall { grid-row: auto; }
     .grid.duo { grid-template-columns: minmax(0, 1fr); grid-template-rows: repeat(2, minmax(0, 1fr)); }
     .grid.mix { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); }
     .grid.mix .tall:not(:first-child) { grid-row: auto; }
-    .sand.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .sand.one { grid-template-columns: minmax(0, 1fr); }
-    .sand.one .tile { aspect-ratio: 4 / 5; }
   }
   @media (max-width: 1300px) { .nav a.is-transition { display: none; } }
   @media (max-width: 640px) {
@@ -331,6 +294,9 @@
     .grid.rhythm .tile:first-child { grid-column: 1 / -1; }   /* one wide on top, then pairs */
     .grid.three { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
     .grid.three .tile:first-child { grid-column: 1 / -1; }   /* one wide on top, two below */
+    .grid.cols4 { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(4, minmax(0, 1fr)); }
+    .grid.cols5 { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(5, minmax(0, 1fr)); grid-auto-flow: dense; }   /* the wide tile takes a row of its own; the next tiles fill the gap */
+    .grid .wide { grid-column: 1 / -1; }
   }
 
   @media (max-width: 760px) {
@@ -339,10 +305,12 @@
     .title-block, .lines { grid-row: auto; }
     .lead { margin-top: 0; }
     .refs, .map { height: auto; }
-    .grid, .grid.trio, .grid.duo, .grid.four, .grid.mix, .grid.three, .grid.rhythm { grid-template-rows: none; grid-auto-rows: auto; }
+    .grid, .grid.trio, .grid.duo, .grid.four, .grid.mix, .grid.three, .grid.rhythm, .grid.cols4, .grid.cols5 { grid-template-rows: none; grid-auto-rows: auto; }
+    .grid.cols5 { grid-auto-flow: dense; }
     .grid .tile { aspect-ratio: 4 / 5; }
     .grid.four .tile, .grid.three .tile:not(:first-child) { aspect-ratio: 9 / 16; }
-    .grid.solo .tall { aspect-ratio: auto; }   /* spans two rows of 4:5 tiles */
+    .grid .tall { aspect-ratio: auto; }            /* spans two rows of 4:5 tiles */
+    .grid .wide { aspect-ratio: 16 / 10; }
     /* mix on a phone: image, wide film, the two vertical films side by side, wide film */
     .grid.mix .tile { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 16 / 10; }
     .grid.mix .tile:first-child { aspect-ratio: 4 / 5; }
@@ -400,7 +368,6 @@
 <body>
 <nav class="nav" aria-label="Atos">
   <a href="#inicio" data-act="inicio">Início</a>
-  <a href="#conversacao" data-act="conversacao">Conversação</a>
   <a href="#big-bang" data-act="big-bang" class="is-transition">Big bang</a>
   <a href="#entrada" data-act="entrada">Entrada</a>
   <a href="#particula-materia" data-act="materia" class="is-transition">Partícula para matéria</a>
@@ -424,15 +391,14 @@
   <!-- ================================================= TEMA -->
   <section class="slide theme" id="tema" aria-label="O despertar da matéria">
     <h2 class="head"><b>O despertar da matéria</b><span>Tema</span></h2>
-    <p class="theme-text reveal">O despertar da matéria é um jantar multissensorial sobre a pele. Em seis etapas, a sala, o som e os pratos contam uma transformação: a pele começa áspera como pedra e areia, é hidratada pela água, como faz o ácido hialurônico, fica macia como seda e termina brilhando como jóia.</p>
+    <p class="theme-text reveal">O despertar da matéria é um jantar multissensorial sobre a pele. Em cinco etapas, a sala, o som e os pratos contam uma transformação: a pele começa áspera como pedra e areia, é hidratada pela água, como faz o ácido hialurônico, fica macia como seda e termina brilhando como jóia.</p>
   </section>
 
   <!-- ================================================= MAPA -->
   <section class="slide map" id="mapa" aria-label="Mapa do jantar">
     <h2 class="head"><b>O jantar</b><span>Mapa</span></h2>
     <ol class="route">
-      <li><a href="#inicio"><span class="shot"><img src="media/inicio-1-parede.jpg" alt="" style="object-position:50% 62%"></span><span class="label"><b>Início</b><span>Sala branca. A forma recebe cada convidado.</span></span></a></li>
-      <li><a href="#conversacao"><span class="shot"><video src="media/forma-2-anel.mp4" poster="media/forma-2-anel.jpg" muted loop playsinline preload="metadata" style="object-position:50% 34%"></video></span><span class="label"><b>Conversação</b><span>A forma abre a noite e sua voz ganha refrações.</span></span></a></li>
+      <li><a href="#inicio"><span class="shot"><img src="media/inicio-1-parede.jpg" alt="" style="object-position:50% 62%"></span><span class="label"><b>Início</b><span>Sala branca. A forma recebe os convidados, os leva à mesa e abre a noite.</span></span></a></li>
       <li class="is-transition"><a href="#big-bang"><span class="shot"><video src="media/bb-capa-nucleo.mp4" poster="media/bb-capa-nucleo.jpg" muted loop playsinline preload="metadata" style="object-position:50% 46%"></video></span><span class="label"><b>Big bang</b><span>A passagem mais rápida, em preto e branco.</span></span></a></li>
       <li><a href="#entrada"><span class="shot"><img src="media/entrada-1-areia-dourada.jpg" alt="" style="object-position:50% 72%"></span><span class="label"><b>Entrada</b><span>Crosta, pedras e areia dourada até os pratos.</span></span></a></li>
       <li class="is-transition"><a href="#particula-materia"><span class="shot"><img src="media/agua-2-cascata.jpg" alt="" style="object-position:42% 55%"></span><span class="label"><b>Partícula para matéria</b><span>As partículas ganham corpo.</span></span></a></li>
@@ -450,12 +416,13 @@
       <h2 class="name">Início</h2>
     </div>
     <div class="copy">
-      <p class="statement reveal">A sala respira. Os convidados entram num espaço todo branco. A forma já está lá e os recebe com a sua voz.</p>
+      <p class="statement reveal">A sala respira. Os convidados entram num espaço todo branco e a forma os recebe e os leva a sentar. Com todos à mesa, ela abre a noite e fala; a voz ganha refrações que mudam os elementos da mesa.</p>
       <dl class="pairs reveal">
         <div><dt>Espaço</dt><dd>Branco e contínuo.</dd></div>
-        <div><dt>A forma</dt><dd>Presente desde a entrada, recebe cada convidado.</dd></div>
-        <div><dt>Som</dt><dd>White noise constante, envolvendo a sala.</dd></div>
-        <div><dt>Voz</dt><dd>A voz da forma, com eco, vinda de todos os lados.</dd></div>
+        <div><dt>A forma</dt><dd>Recebe cada convidado e o leva até a mesa.</dd></div>
+        <div><dt>Fala</dt><dd>Abre a noite e fala com cada convidado.</dd></div>
+        <div><dt>Refrações</dt><dd>A voz se desdobra e muda os elementos da mesa.</dd></div>
+        <div><dt>Som</dt><dd>White noise constante, com a voz da forma em eco.</dd></div>
       </dl>
     </div>
   </section>
@@ -472,26 +439,9 @@
     </div>
   </section>
 
-  <!-- ================================================= CONVERSAÇÃO -->
-  <section class="slide opener" id="conversacao" data-act="conversacao" aria-label="Conversação">
-    <div class="title-block reveal">
-      <p class="kind">Etapa</p>
-      <h2 class="name">Conversação</h2>
-    </div>
-    <div class="copy">
-      <p class="statement reveal">Com todos à mesa, a forma abre o evento e fala com os convidados. Agora a sua voz ganha refrações, e elas mudam os elementos na mesa.</p>
-      <dl class="pairs reveal">
-        <div><dt>Abre o evento</dt><dd>Apresenta a noite aos convidados.</dd></div>
-        <div><dt>Fala</dt><dd>A forma fala com cada convidado.</dd></div>
-        <div><dt>Refrações</dt><dd>A voz da forma se desdobra em refrações.</dd></div>
-        <div><dt>Mesa</dt><dd>As refrações mudam os elementos presentes na mesa.</dd></div>
-        <div><dt>Som</dt><dd class="undefined">Não definido</dd></div>
-      </dl>
-    </div>
-  </section>
 
-  <section class="slide refs" id="conversacao-referencias" data-act="conversacao" aria-label="Conversação, referências">
-    <h2 class="head"><b>Conversação</b><span>Referências</span></h2>
+  <section class="slide refs" id="inicio-forma" data-act="inicio" aria-label="Início, a forma">
+    <h2 class="head"><b>Início</b><span>A forma</span></h2>
     <div class="grid solo">
       <button type="button" class="tile tall" aria-label="Ampliar: anel líquido iridescente"><video src="media/forma-2-anel.mp4" poster="media/forma-2-anel.jpg" muted loop playsinline preload="metadata" style="object-position:50% 30%"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: filamentos de luz branca que se formam no escuro"><video src="media/forma-1-filamentos.mp4" poster="media/forma-1-filamentos.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
@@ -515,7 +465,7 @@
     <h2 class="head"><b>Big bang</b><span>A transição</span></h2>
     <p class="lead reveal">
       <strong>A parte mais rápida do jantar.</strong>
-      <span>Começa quando a conversação termina.</span>
+      <span>Começa quando a conversa à mesa termina.</span>
     </p>
     <ul class="lines">
       <li>Movimentos matemáticos. <span>Precisos, repetidos, acelerados.</span></li>
@@ -557,30 +507,15 @@
 
   <section class="slide refs" id="entrada-referencias" data-act="entrada" aria-label="Entrada, referências">
     <h2 class="head"><b>Entrada</b><span>Referências</span></h2>
-    <div class="grid">
+    <div class="grid cols5">
       <button type="button" class="tile" aria-label="Ampliar: linhas de luz dourada correndo entre formações de pedra"><img src="media/entrada-1-areia-dourada.jpg" alt="" style="object-position:50% 68%"></button>
       <button type="button" class="tile" aria-label="Ampliar: raio de luz caindo dentro de uma torre de pedra"><img src="media/entrada-2-fenda-de-luz.jpg" alt="" style="object-position:50% 72%"></button>
       <button type="button" class="tile" aria-label="Ampliar: luz passando por uma fenda de rocha negra"><img src="media/entrada-3-rocha.jpg" alt="" style="object-position:50% 45%"></button>
+      <button type="button" class="tile wide" aria-label="Ampliar: paisagem de partículas com caverna e água"><video src="media/entrada-6-paisagem.mp4" poster="media/entrada-6-paisagem.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: dedo tocando a areia e formando ondas"><img src="media/entrada-4-mao-na-areia.jpg" alt="" style="object-position:50% 42%"></button>
       <button type="button" class="tile" aria-label="Ampliar: ondulações na areia cinza"><img src="media/entrada-5-areia.jpg" alt="" style="object-position:50% 50%"></button>
-      <button type="button" class="tile" aria-label="Ampliar: paisagem de partículas com caverna e água"><video src="media/entrada-6-paisagem.mp4" poster="media/entrada-6-paisagem.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
-    </div>
-  </section>
-  <section class="slide dark black plates" id="entrada-pratos" data-act="entrada" aria-label="Entrada, os pratos">
-    <div class="plates-copy">
-      <h2 class="head"><b>Entrada</b><span>Os pratos</span></h2>
-      <div class="copy">
-        <p class="statement reveal">Nos pratos, a areia dourada forma mandalas. Quem desenha é a frequência do som que ecoa na sala: a vibração move os grãos até a figura aparecer.</p>
-        <dl class="pairs reveal">
-          <div><dt>Som</dt><dd>A vibração move fisicamente a areia no prato.</dd></div>
-          <div><dt>Mandalas</dt><dd>Cada frequência desenha uma figura diferente.</dd></div>
-          <div><dt>Em transformação</dt><dd>Quando o som muda, o desenho muda com ele.</dd></div>
-        </dl>
-      </div>
-    </div>
-    <div class="sand">
-      <button type="button" class="tile" aria-label="Ampliar: areia vibrando em círculo, hexágono, pentágono, quadrado e triângulo"><video src="media/pratos-1-geometrias.mp4" poster="media/pratos-1-geometrias.jpg" muted loop playsinline preload="metadata" style="--zoom:1.4"></video></button>
-      <button type="button" class="tile" aria-label="Ampliar: areia vibrando numa mandala em transformação"><video src="media/pratos-2-mandala.mp4" poster="media/pratos-2-mandala.jpg" muted loop playsinline preload="metadata" style="--zoom:1.3"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: areia vibrando em círculo, hexágono, pentágono, quadrado e triângulo"><video src="media/pratos-1-geometrias.mp4" poster="media/pratos-1-geometrias.jpg" muted loop playsinline preload="metadata"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: areia vibrando numa mandala em transformação"><video src="media/pratos-2-mandala.mp4" poster="media/pratos-2-mandala.jpg" muted loop playsinline preload="metadata"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: areia dourada girando em espiral"><video src="media/pratos-3-espiral.mp4" poster="media/pratos-3-espiral.jpg" muted loop playsinline preload="metadata"></video></button>
     </div>
   </section>
@@ -622,28 +557,13 @@
 
   <section class="slide refs" id="prato-principal-referencias" data-act="principal" aria-label="Prato principal, referências">
     <h2 class="head"><b>Prato principal</b><span>Referências</span></h2>
-    <div class="grid four">
-      <button type="button" class="tile" aria-label="Ampliar: formas líquidas prateadas que se dobram e se fundem"><video src="media/principal-3-liquido.mp4" poster="media/principal-3-liquido.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
+    <div class="grid cols4">
+      <button type="button" class="tile tall" aria-label="Ampliar: formas líquidas prateadas que se dobram e se fundem"><video src="media/principal-3-liquido.mp4" poster="media/principal-3-liquido.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: gotas de vidro líquido que se fundem em anéis"><video src="media/principal-1-gotas.mp4" poster="media/principal-1-gotas.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: bolhas subindo dentro de um gel transparente"><video src="media/principal-4-bolhas.mp4" poster="media/principal-4-bolhas.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
-      <button type="button" class="tile" aria-label="Ampliar: forma orgânica verde crescendo no escuro"><video src="media/principal-5-organico.mp4" poster="media/principal-5-organico.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
-    </div>
-  </section>
-  <section class="slide dark black plates" id="prato-principal-pratos" data-act="principal" aria-label="Prato principal, os pratos">
-    <div class="plates-copy">
-      <h2 class="head"><b>Prato principal</b><span>Os pratos</span></h2>
-      <div class="copy">
-        <p class="statement reveal">Nos pratos, a matéria ganha corpo em formas orgânicas: uma esfera de vidro e uma gota líquida que gira e muda de forma.</p>
-        <dl class="pairs reveal">
-          <div><dt>Esfera</dt><dd>Vidro com matéria líquida e orgânica dentro.</dd></div>
-          <div><dt>Gota</dt><dd>Vidro líquido que gira e muda de forma.</dd></div>
-          <div><dt>Formas</dt><dd>Curvas contínuas que se fundem, como água.</dd></div>
-        </dl>
-      </div>
-    </div>
-    <div class="sand two">
-      <button type="button" class="tile" aria-label="Ampliar: esfera de vidro com matéria orgânica que muda de cor"><video class="float" src="media/principal-2-esfera.mp4" poster="media/principal-2-esfera.jpg" muted loop playsinline preload="metadata" style="object-fit:cover"></video></button>
-      <button type="button" class="tile" aria-label="Ampliar: gota de vidro líquido girando no escuro"><video src="media/pratos-materia-gota.mp4" poster="media/pratos-materia-gota.jpg" muted loop playsinline preload="metadata" style="--zoom:1.35"></video></button>
+      <button type="button" class="tile tall" aria-label="Ampliar: forma orgânica verde crescendo no escuro"><video src="media/principal-5-organico.mp4" poster="media/principal-5-organico.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: esfera de vidro com matéria orgânica que muda de cor"><video src="media/principal-2-esfera.mp4" poster="media/principal-2-esfera.jpg" muted loop playsinline preload="metadata"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: gota de vidro líquido girando no escuro"><video src="media/pratos-materia-gota.mp4" poster="media/pratos-materia-gota.jpg" muted loop playsinline preload="metadata"></video></button>
     </div>
   </section>
   <!-- ================================================= TRANSIÇÃO: MATÉRIA PARA SEDA -->
@@ -674,32 +594,17 @@
 
   <section class="slide refs" id="sobremesa-referencias" data-act="sobremesa" aria-label="Sobremesa, referências">
     <h2 class="head"><b>Sobremesa</b><span>Referências</span></h2>
-    <div class="grid rhythm">
-      <button type="button" class="tile tall" aria-label="Ampliar: pele com textura de seda e pontos de brilho"><img src="media/sobremesa-1-seda.jpg" alt="" style="object-position:50% 40%"></button>
+    <div class="grid cols5">
+      <button type="button" class="tile" aria-label="Ampliar: pele com textura de seda e pontos de brilho"><img src="media/sobremesa-1-seda.jpg" alt="" style="object-position:50% 40%"></button>
       <button type="button" class="tile" aria-label="Ampliar: sala de concerto coberta por grandes panos de seda"><img src="media/sobremesa-5-sala-seda.jpg" alt="" style="object-position:50% 62%"></button>
-      <button type="button" class="tile tall" aria-label="Ampliar: seda branca ondulando"><video src="media/sobremesa-4-seda-branca.mp4" poster="media/sobremesa-4-seda-branca.jpg" muted loop playsinline preload="metadata"></video></button>
-      <button type="button" class="tile" aria-label="Ampliar: flor em preto e branco com reflexos de arco-íris"><video src="media/sobremesa-3-flor.mp4" poster="media/sobremesa-3-flor.jpg" muted loop playsinline preload="metadata"></video></button>
-      <button type="button" class="tile tall" aria-label="Ampliar: dobras de seda cor de âmbar em movimento"><video src="media/sobremesa-2-dobras.mp4" poster="media/sobremesa-2-dobras.jpg" muted loop playsinline preload="metadata"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: seda branca ondulando"><video src="media/sobremesa-4-seda-branca.mp4" poster="media/sobremesa-4-seda-branca.jpg" muted loop playsinline preload="metadata"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: esculturas de seda penduradas no teto de um pavilhão"><video src="media/sobremesa-6-pavilhao.mp4" poster="media/sobremesa-6-pavilhao.jpg" muted loop playsinline preload="metadata" style="object-position:50% 40%"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: dobras de seda cor de âmbar em movimento"><video src="media/sobremesa-2-dobras.mp4" poster="media/sobremesa-2-dobras.jpg" muted loop playsinline preload="metadata"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: flor em preto e branco com reflexos de arco-íris"><video src="media/sobremesa-3-flor.mp4" poster="media/sobremesa-3-flor.jpg" muted loop playsinline preload="metadata"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: forma branca que se abre como pétalas"><video src="media/forma-5-petalas.mp4" poster="media/forma-5-petalas.jpg" muted loop playsinline preload="metadata" style="object-position:50% 45%"></video></button>
-    </div>
-  </section>
-  <section class="slide dark black plates" id="sobremesa-pratos" data-act="sobremesa" aria-label="Sobremesa, os pratos">
-    <div class="plates-copy">
-      <h2 class="head"><b>Sobremesa</b><span>Os pratos</span></h2>
-      <div class="copy">
-        <p class="statement reveal">Nos pratos, a sobremesa se abre como uma flor de seda. As pétalas se desdobram devagar e deixam a luz passar.</p>
-        <dl class="pairs reveal">
-          <div><dt>Flor</dt><dd>Pétalas de tecido que se abrem.</dd></div>
-          <div><dt>Luz</dt><dd>Atravessa a seda por dentro.</dd></div>
-          <div><dt>Movimento</dt><dd>A forma abre e fecha, viva.</dd></div>
-        </dl>
-      </div>
-    </div>
-    <div class="sand">
-      <button type="button" class="tile" aria-label="Ampliar: luminárias de tecido em forma de flor no teto"><video src="media/sobremesa-pratos-1-luminarias.mp4" poster="media/sobremesa-pratos-1-luminarias.jpg" muted loop playsinline preload="metadata" style="object-fit:cover"></video></button>
-      <button type="button" class="tile" aria-label="Ampliar: flor de papel que abre e fecha nas mãos"><video src="media/sobremesa-pratos-2-flor-cinetica.mp4" poster="media/sobremesa-pratos-2-flor-cinetica.jpg" muted loop playsinline preload="metadata" style="object-fit:cover;object-position:50% 45%"></video></button>
-      <button type="button" class="tile" aria-label="Ampliar: luminária em forma de flor desabrochando acesa"><video src="media/sobremesa-pratos-3-flor-luz.mp4" poster="media/sobremesa-pratos-3-flor-luz.jpg" muted loop playsinline preload="metadata" style="object-fit:cover;object-position:50% 35%"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: luminárias de tecido em forma de flor no teto"><video src="media/sobremesa-pratos-1-luminarias.mp4" poster="media/sobremesa-pratos-1-luminarias.jpg" muted loop playsinline preload="metadata"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: flor de papel que abre e fecha nas mãos"><video src="media/sobremesa-pratos-2-flor-cinetica.mp4" poster="media/sobremesa-pratos-2-flor-cinetica.jpg" muted loop playsinline preload="metadata"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: luminária em forma de flor desabrochando acesa"><video src="media/sobremesa-pratos-3-flor-luz.mp4" poster="media/sobremesa-pratos-3-flor-luz.jpg" muted loop playsinline preload="metadata"></video></button>
     </div>
   </section>
   <!-- ================================================= FINAL -->
@@ -722,26 +627,11 @@
 
   <section class="slide refs" id="final-referencias" data-act="final" aria-label="Final, referências">
     <h2 class="head"><b>Final</b><span>Referências</span></h2>
-    <div class="grid three">
+    <div class="grid four">
       <button type="button" class="tile" aria-label="Ampliar: mesa com peças de cristal espalhando luz em arco-íris no escuro"><img src="media/final-1-mesa.jpg" alt="" style="object-position:50% 55%"></button>
       <button type="button" class="tile" aria-label="Ampliar: mosaico de cristal holográfico brilhando"><video src="media/final-2-mosaico.mp4" poster="media/final-2-mosaico.jpg" muted loop playsinline preload="metadata"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: luz atravessando uma peça de cristal"><video src="media/final-3-luz.mp4" poster="media/final-3-luz.jpg" muted loop playsinline preload="metadata"></video></button>
-    </div>
-  </section>
-  <section class="slide dark black plates" id="final-pratos" data-act="final" aria-label="Final, os pratos">
-    <div class="plates-copy">
-      <h2 class="head"><b>Final</b><span>Os pratos</span></h2>
-      <div class="copy">
-        <p class="statement reveal">Nos pratos, um cristal gira e se abre em cores. A luz atravessa as faces e pinta a mesa.</p>
-        <dl class="pairs reveal">
-          <div><dt>Cristal</dt><dd>Facetado, transparente, sempre girando.</dd></div>
-          <div><dt>Cores</dt><dd>Rosa, azul e dourado nascem das faces.</dd></div>
-          <div><dt>Brilho</dt><dd>A pele como jóia, servida no prato.</dd></div>
-        </dl>
-      </div>
-    </div>
-    <div class="sand one">
-      <button type="button" class="tile" aria-label="Ampliar: cristal facetado girando em rosa, azul e dourado"><video src="media/final-pratos-cristal.mp4" poster="media/final-pratos-cristal.jpg" muted loop playsinline preload="metadata" style="--zoom:1.5"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: cristal facetado girando em rosa, azul e dourado"><video src="media/final-pratos-cristal.mp4" poster="media/final-pratos-cristal.jpg" muted loop playsinline preload="metadata"></video></button>
     </div>
   </section>
 </main>
