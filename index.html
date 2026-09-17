@@ -30,11 +30,13 @@
     --helvetica: "Helvetica Neue", Helvetica, Arial, sans-serif;
     --pad: clamp(16px, 2vw, 40px);
     --gap: clamp(6px, 0.55vw, 10px);
-    /* act names: sized so CONVERSAÇÃO spans the width and never breaks */
-    --name: min(calc((100vw - 2 * var(--pad) - 2 * var(--fgap)) / 7.8), 26vh);
+    /* act names: one size for every name, set so the longest (PRATO PRINCIPAL) spans the width on one line */
+    --name: min(calc((100vw - 2 * var(--pad) - 2 * var(--fgap)) / 8.9), 26vh);
     --statement: clamp(22px, 2.2vw, 46px);
     --body: clamp(16px, 1.2vw, 22px);
     --small: clamp(13px, 0.9vw, 15px);
+    --head: clamp(20px, 1.7vw, 34px);
+    --below-head: calc(var(--head) + var(--pad) * 0.7);   /* where content starts on every page */
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -81,6 +83,7 @@
     display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: calc(var(--pad) * 0.9) var(--pad);
   }
+  .opener .pairs { max-width: calc(var(--statement) * 26); }   /* same measure as the statement (26em) */
   .pairs div { display: grid; gap: 0.3em; align-content: start; }
   .pairs dt { font-size: var(--body); font-weight: 500; }
   .pairs dd { margin: 0; font-size: var(--body); line-height: 1.4; color: var(--mute); }
@@ -135,7 +138,7 @@
   /* slide heading: act name, then what the slide holds */
   .head {
     margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.55em;
-    font-size: clamp(20px, 1.7vw, 34px); font-weight: 500; line-height: 1; letter-spacing: -0.02em;
+    font-size: var(--head); font-weight: 500; line-height: 1; letter-spacing: -0.02em;
   }
   .head b { font-weight: 500; text-transform: uppercase; }
   .head span { font-weight: 400; color: var(--mute); }
@@ -186,11 +189,16 @@
   .grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
   .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
   /* five references: a tall image, two wide films stacked beside it, two vertical films */
-  .grid.mix { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr) minmax(0, 0.55fr) minmax(0, 0.55fr); }
+  .grid.mix { grid-template-columns: minmax(0, 1fr) minmax(0, 1.52fr) minmax(0, 1fr) minmax(0, 1fr); }   /* wide tiles = a 3x2 tile */
   .grid.mix .tall { grid-row: span 2; }
   /* plates with two films: two tall columns; with one film, it fills the right side */
   .sand.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .sand.one { grid-template-columns: minmax(0, 1fr); }
+  /* a film on a coloured ground: its edges fade into the black so the object floats */
+  .sand .tile video.float {
+    -webkit-mask-image: radial-gradient(circle closest-side, #000 80%, transparent 100%);
+    mask-image: radial-gradient(circle closest-side, #000 80%, transparent 100%);
+  }
   .name.two-lines { line-height: 0.86; }
 
   /* big bang, cover: the middle film edge to edge on every screen; the name over it.
@@ -215,7 +223,7 @@
 
   /* big bang, what happens: a fast list, one idea per line */
   .bb-text { display: grid; grid-template-rows: auto auto minmax(var(--pad), 1fr) auto; }
-  .lead { margin: calc(var(--pad) * 1.6) 0 0; display: grid; gap: 0.5em; max-width: min(64rem, 100%); }
+  .lead { margin: calc(var(--pad) * 0.7) 0 0; display: grid; gap: 0.5em; max-width: min(64rem, 100%); }
   .lead strong {
     display: block; font-weight: 500; letter-spacing: -0.03em; line-height: 1.02;
     font-size: calc(var(--statement) * 1.55);
@@ -267,9 +275,9 @@
 
   /* ------------------------------------------------ small screens */
   /* openers: the statement starts below the act navigation, which now spans most of the top line */
-  @media (min-width: 901px) { .opener .copy { margin-top: calc(var(--small) * 1.3 + var(--pad) * 0.8); } }
+  @media (min-width: 901px) { .opener .copy { margin-top: var(--below-head); } }
   /* plates side by side: the films also start below the act navigation */
-  @media (min-aspect-ratio: 5/4) { .plates .sand { margin-top: calc(var(--small) * 1.3 + var(--pad) * 0.8); } }
+  @media (min-aspect-ratio: 5/4) { .plates .sand { margin-top: var(--below-head); } }
   @media (max-width: 900px) {
     .slide:not(.bb-title) { padding-top: calc(var(--pad) + 36px); }   /* room for the act navigation */
     .copy { max-width: none; }
@@ -352,7 +360,7 @@
         animation-timeline: view();
         animation-range: cover 15% cover 85%;
       }
-      @keyframes shift { from { transform: translateX(0); } to { transform: translateX(-4vw); } }
+      @keyframes shift { from { transform: translateX(2vw); } to { transform: translateX(-2vw); } }
 
       .lines li {
         animation: step-in steps(5, end) both;
@@ -585,7 +593,7 @@
     </div>
     <div class="title-block reveal">
       <p class="kind">Etapa</p>
-      <h2 class="name two-lines">Prato<br>principal</h2>
+      <h2 class="name">Prato principal</h2>
     </div>
   </section>
 
@@ -612,7 +620,7 @@
       </div>
     </div>
     <div class="sand two">
-      <button type="button" class="tile" aria-label="Ampliar: esfera de vidro com matéria orgânica que muda de cor"><video src="media/principal-2-esfera.mp4" poster="media/principal-2-esfera.jpg" muted loop playsinline preload="metadata" style="object-fit:cover"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: esfera de vidro com matéria orgânica que muda de cor"><video class="float" src="media/principal-2-esfera.mp4" poster="media/principal-2-esfera.jpg" muted loop playsinline preload="metadata" style="object-fit:cover"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: gota de vidro líquido girando no escuro"><video src="media/pratos-materia-gota.mp4" poster="media/pratos-materia-gota.jpg" muted loop playsinline preload="metadata" style="--zoom:1.35"></video></button>
     </div>
   </section>
@@ -739,6 +747,33 @@
   const videos = Array.from(document.querySelectorAll(".slide video"));
 
   const play = (v) => { try { const p = v.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} };
+
+  // ---------- an opener is one screen tall; if any would overflow, every name steps down by the same ratio
+  const openers = Array.from(document.querySelectorAll(".opener"));
+  const names = Array.from(document.querySelectorAll(".name"));
+  const phone = matchMedia("(max-width: 760px)");
+  function fitOpeners() {
+    names.forEach((n) => { n.style.fontSize = ""; });
+    if (phone.matches) return;                              // phones: openers flow at their natural height
+    const frame = parseFloat(getComputedStyle(document.querySelector("main")).paddingTop) || 0;
+    const screen = window.innerHeight - 2 * frame;
+    let ratio = 1;
+    openers.forEach((s) => {
+      const over = s.getBoundingClientRect().height - screen;
+      if (over < 1) return;
+      const name = s.querySelector(".name");
+      const fs = parseFloat(getComputedStyle(name).fontSize);
+      const perPx = name.getBoundingClientRect().height / fs;   // name height per pixel of font size
+      ratio = Math.min(ratio, (fs - over / perPx - 1) / fs);
+    });
+    ratio = Math.max(ratio, 0.75);                          // never shrink past three quarters; a taller page is better
+    if (ratio < 1) names.forEach((n) => { n.style.fontSize = (parseFloat(getComputedStyle(n).fontSize) * ratio).toFixed(1) + "px"; });
+  }
+  let fitQueued = false;
+  const queueFit = () => { if (!fitQueued) { fitQueued = true; requestAnimationFrame(() => { fitQueued = false; fitOpeners(); }); } };
+  addEventListener("resize", queueFit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(queueFit);
+  fitOpeners();
 
   // on narrow phones the navigation slides sideways: keep the current act's link visible
   const nav = document.querySelector(".nav");
