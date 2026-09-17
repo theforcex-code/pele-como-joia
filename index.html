@@ -183,9 +183,8 @@
   /* five references: a tall image, two wide films stacked beside it, two vertical films */
   .grid.mix { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr) minmax(0, 0.55fr) minmax(0, 0.55fr); }
   .grid.mix .tall { grid-row: span 2; }
-  /* plates with a single film: it fills the whole right side */
-  .sand.one { grid-template-columns: minmax(0, 1fr); }
-  .sand.one .tile video { object-fit: cover; }
+  /* plates with two films: two tall columns */
+  .sand.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .name.two-lines { line-height: 0.86; }
 
   /* big bang, cover: the middle film edge to edge on every screen; the name over it.
@@ -275,8 +274,7 @@
     .grid.duo { grid-template-columns: minmax(0, 1fr); grid-template-rows: repeat(2, minmax(0, 1fr)); }
     .grid.mix { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); }
     .grid.mix .tall:not(:first-child) { grid-row: auto; }
-    .sand.one { grid-template-columns: minmax(0, 1fr); }
-    .sand.one .tile { aspect-ratio: 4 / 5; }
+    .sand.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 1080px) { .nav a.is-transition { display: none; } }
   @media (max-width: 640px) {
@@ -549,23 +547,6 @@
       <button type="button" class="tile" aria-label="Ampliar: esfera de partículas azuis se desfazendo"><video src="media/agua-3-esfera.mp4" poster="media/agua-3-esfera.jpg" muted loop playsinline preload="metadata"></video></button>
     </div>
   </section>
-  <section class="slide dark black plates" id="particula-materia-pratos" data-act="materia" aria-label="Partícula para matéria, os pratos">
-    <div class="plates-copy">
-      <h2 class="head"><b>Partícula para matéria</b><span>Os pratos</span></h2>
-      <div></div>
-      <div class="copy">
-        <p class="statement reveal">Nos pratos, as partículas ganham corpo. Dentro de uma esfera, pontos de luz se juntam e viram uma matéria líquida e orgânica.</p>
-        <dl class="pairs reveal">
-          <div><dt>Partículas</dt><dd>Pontos de luz soltos dentro da esfera.</dd></div>
-          <div><dt>Corpo</dt><dd>Eles se juntam e viram matéria.</dd></div>
-          <div><dt>Em movimento</dt><dd>A forma muda o tempo todo, viva.</dd></div>
-        </dl>
-      </div>
-    </div>
-    <div class="sand one">
-      <button type="button" class="tile" aria-label="Ampliar: esfera de vidro com matéria orgânica que muda de cor"><video src="media/principal-2-esfera.mp4" poster="media/principal-2-esfera.jpg" muted loop playsinline preload="metadata"></video></button>
-    </div>
-  </section>
   <!-- ================================================= PRATO PRINCIPAL -->
   <section class="slide opener" id="prato-principal" data-act="principal" aria-label="Prato principal">
     <div class="copy">
@@ -590,6 +571,24 @@
       <button type="button" class="tile" aria-label="Ampliar: gotas de vidro líquido que se fundem em anéis"><video src="media/principal-1-gotas.mp4" poster="media/principal-1-gotas.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: bolhas subindo dentro de um gel transparente"><video src="media/principal-4-bolhas.mp4" poster="media/principal-4-bolhas.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: forma orgânica verde crescendo no escuro"><video src="media/principal-5-organico.mp4" poster="media/principal-5-organico.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
+    </div>
+  </section>
+  <section class="slide dark black plates" id="prato-principal-pratos" data-act="principal" aria-label="Prato principal, os pratos">
+    <div class="plates-copy">
+      <h2 class="head"><b>Prato principal</b><span>Os pratos</span></h2>
+      <div></div>
+      <div class="copy">
+        <p class="statement reveal">Nos pratos, a matéria ganha corpo. Dentro de uma esfera, pontos de luz se juntam e viram uma matéria líquida e orgânica.</p>
+        <dl class="pairs reveal">
+          <div><dt>Partículas</dt><dd>Pontos de luz soltos dentro da esfera.</dd></div>
+          <div><dt>Corpo</dt><dd>Eles se juntam e viram matéria líquida.</dd></div>
+          <div><dt>Em movimento</dt><dd>Uma gota de vidro líquido gira e muda de forma.</dd></div>
+        </dl>
+      </div>
+    </div>
+    <div class="sand two">
+      <button type="button" class="tile" aria-label="Ampliar: esfera de vidro com matéria orgânica que muda de cor"><video src="media/principal-2-esfera.mp4" poster="media/principal-2-esfera.jpg" muted loop playsinline preload="metadata" style="object-fit:cover"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: gota de vidro líquido girando no escuro"><video src="media/pratos-materia-gota.mp4" poster="media/pratos-materia-gota.jpg" muted loop playsinline preload="metadata" style="--zoom:1.35"></video></button>
     </div>
   </section>
 </main>
