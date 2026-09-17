@@ -83,9 +83,8 @@
   .title-block { grid-row: 3; display: grid; gap: calc(var(--pad) * 0.5); }
   .kind { margin: 0; font-size: var(--statement); font-weight: 400; line-height: 1; letter-spacing: -0.015em; }
 
-  /* cover: the room breathes; light and particles gather slowly behind the name */
+  /* cover: the theme's name on plain white */
   .cover-main { height: 100vh; height: 100svh; display: grid; align-content: end; overflow: hidden; }
-  .breath { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   .cover-copy { position: relative; display: grid; gap: calc(var(--pad) * 0.5); }
 
   /* theme: three lines resting on the floor of the slide */
@@ -348,7 +347,6 @@
 <main>
   <!-- ================================================= CAPA -->
   <section class="slide cover-main" id="capa" aria-label="Pele como Jóia">
-    <canvas class="breath" aria-hidden="true"></canvas>
     <div class="cover-copy">
       <p class="kind">Pele como jóia</p>
       <h1 class="name two-lines">O despertar<br>da matéria</h1>
@@ -703,82 +701,6 @@
     else if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
     else if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
   });
-})();
-</script>
-<script>
-(() => {
-  // The room breathes: two warm glows swell and settle on an eight second breath, and fine grains of
-  // matter drift from scatter into a loose ring on each inhale. Nothing literal, nothing fast.
-  const canvas = document.querySelector(".breath");
-  if (!canvas || !canvas.getContext) return;
-  const ctx = canvas.getContext("2d");
-  const TAU = Math.PI * 2;
-  const still = matchMedia("(prefers-reduced-motion: reduce)");
-  let w = 0, h = 0, raf = 0, running = false;
-  const start = performance.now();
-
-  const grains = Array.from({ length: 240 }, (_, i) => ({
-    a: Math.random() * TAU,
-    loose: 0.16 + Math.random() * 0.4,
-    ring: 0.2 + (i % 4) * 0.028 + Math.random() * 0.012,
-    drift: (0.012 + Math.random() * 0.03) * (i % 2 ? 1 : -1),
-    size: 0.8 + Math.random() * 1.8,
-    phase: Math.random() * TAU,
-  }));
-
-  function resize() {
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
-    w = canvas.clientWidth; h = canvas.clientHeight;
-    canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-
-  function glow(x, y, r, rgb, alpha) {
-    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-    g.addColorStop(0, "rgba(" + rgb + "," + alpha + ")");
-    g.addColorStop(0.55, "rgba(" + rgb + "," + alpha * 0.35 + ")");
-    g.addColorStop(1, "rgba(" + rgb + ",0)");
-    ctx.fillStyle = g;
-    ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
-  }
-
-  function draw(now) {
-    const t = (now - start) / 1000;
-    const breath = (1 - Math.cos((t * TAU) / 8)) / 2;           // 0 exhaled, 1 inhaled
-    const portrait = h > w;
-    const cx = w * (portrait ? 0.55 : 0.64), cy = h * (portrait ? 0.34 : 0.42);
-    const s = Math.min(w, h) * (portrait ? 1.05 : 1);
-
-    ctx.clearRect(0, 0, w, h);
-    glow(cx, cy, s * (0.46 + 0.06 * breath), "228,198,136", 0.66 + 0.24 * breath);
-    glow(cx - s * 0.07, cy + s * 0.05, s * (0.26 + 0.05 * (1 - breath)), "214,142,52", 0.26 + 0.16 * breath);
-
-    for (const g of grains) {
-      const r = g.loose + (g.ring - g.loose) * breath * 0.9;
-      const ang = g.a + t * g.drift;
-      const x = cx + Math.cos(ang) * r * s * 1.15;
-      const y = cy + Math.sin(ang) * r * s * 0.92;
-      const alpha = 0.3 + 0.55 * breath * (0.55 + 0.45 * Math.sin(t * 0.6 + g.phase));
-      ctx.fillStyle = "rgba(150,98,34," + alpha.toFixed(3) + ")";
-      ctx.beginPath(); ctx.arc(x, y, g.size, 0, TAU); ctx.fill();
-    }
-    if (running) raf = requestAnimationFrame(draw);
-  }
-
-  function play() {
-    if (running) return;
-    if (still.matches) { draw(start + 4000); return; }                 // one calm, inhaled frame
-    running = true; raf = requestAnimationFrame(draw);
-  }
-  function pause() { running = false; cancelAnimationFrame(raf); }
-
-  resize();
-  addEventListener("resize", () => { resize(); if (!running) draw(start + 4000); });
-  new IntersectionObserver((entries) => {
-    entries.forEach((e) => (e.isIntersecting ? play() : pause()));
-  }).observe(canvas);
-  document.addEventListener("visibilitychange", () => (document.hidden ? pause() : play()));
-  draw(start + 4000);
 })();
 </script>
 </body>
