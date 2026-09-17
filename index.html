@@ -180,7 +180,6 @@
   .grid.duo { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
   /* four vertical films: one row of tall columns */
   .grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
-  .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
   /* five references: a tall image, two wide films stacked beside it, two vertical films */
   .grid.mix { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr) minmax(0, 0.55fr) minmax(0, 0.55fr); }
   .grid.mix .tall { grid-row: span 2; }
@@ -285,8 +284,6 @@
   @media (orientation: portrait) and (max-width: 900px) {
     .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); }
     .grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
-    .grid.three { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
-    .grid.three .tile:first-child { grid-column: 1 / -1; }   /* one wide on top, two below */
   }
 
   @media (max-width: 760px) {
@@ -295,9 +292,9 @@
     .title-block, .lines { grid-row: auto; }
     .lead { margin-top: 0; }
     .refs, .map { height: auto; }
-    .grid, .grid.trio, .grid.duo, .grid.four, .grid.mix, .grid.three { grid-template-rows: none; grid-auto-rows: auto; }
+    .grid, .grid.trio, .grid.duo, .grid.four, .grid.mix { grid-template-rows: none; grid-auto-rows: auto; }
     .grid .tile { aspect-ratio: 4 / 5; }
-    .grid.four .tile, .grid.three .tile:not(:first-child) { aspect-ratio: 9 / 16; }
+    .grid.four .tile { aspect-ratio: 9 / 16; }
     /* mix on a phone: image, wide film, the two vertical films side by side, wide film */
     .grid.mix .tile { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 16 / 10; }
     .grid.mix .tile:first-child { aspect-ratio: 4 / 5; }
@@ -615,8 +612,9 @@
 
   <section class="slide refs" id="sobremesa-referencias" data-act="sobremesa" aria-label="Sobremesa, referências">
     <h2 class="head"><b>Sobremesa</b><span>Referências</span></h2>
-    <div class="grid three">
+    <div class="grid four">
       <button type="button" class="tile" aria-label="Ampliar: pele com textura de seda e pontos de brilho"><img src="media/sobremesa-1-seda.jpg" alt="" style="object-position:50% 40%"></button>
+      <button type="button" class="tile" aria-label="Ampliar: seda branca ondulando"><video src="media/sobremesa-4-seda-branca.mp4" poster="media/sobremesa-4-seda-branca.jpg" muted loop playsinline preload="metadata"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: dobras de seda cor de âmbar em movimento"><video src="media/sobremesa-2-dobras.mp4" poster="media/sobremesa-2-dobras.jpg" muted loop playsinline preload="metadata"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: flor em preto e branco com reflexos de arco-íris"><video src="media/sobremesa-3-flor.mp4" poster="media/sobremesa-3-flor.jpg" muted loop playsinline preload="metadata"></video></button>
     </div>
