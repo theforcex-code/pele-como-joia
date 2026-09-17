@@ -180,6 +180,7 @@
   .grid.duo { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
   /* four vertical films: one row of tall columns */
   .grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
+  .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
   /* five references: a tall image, two wide films stacked beside it, two vertical films */
   .grid.mix { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr) minmax(0, 0.55fr) minmax(0, 0.55fr); }
   .grid.mix .tall { grid-row: span 2; }
@@ -260,6 +261,8 @@
   .lb-stage img, .lb-stage video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; display: block; }
 
   /* ------------------------------------------------ small screens */
+  /* openers: the statement starts below the act navigation, which now spans most of the top line */
+  @media (min-width: 901px) { .opener .copy { margin-top: calc(var(--small) * 1.3 + var(--pad) * 0.8); } }
   @media (max-width: 900px) {
     .slide:not(.bb-title) { padding-top: calc(var(--pad) + 36px); }   /* room for the act navigation */
     .copy { max-width: none; }
@@ -280,10 +283,17 @@
   @media (max-width: 640px) {
     .pairs { grid-template-columns: minmax(0, 1fr); }
     .nav button { display: none; }
+    /* phones: one tight line, right-aligned; on very narrow screens it slides sideways instead of wrapping */
+    .nav { left: var(--pad); gap: 8px; font-size: 12px; overflow-x: auto; scrollbar-width: none; }
+    .nav::-webkit-scrollbar { display: none; }
+    .nav a { flex-shrink: 0; white-space: nowrap; }
+    .nav a:first-child { margin-left: auto; }
   }
   @media (orientation: portrait) and (max-width: 900px) {
     .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); }
     .grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
+    .grid.three { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
+    .grid.three .tile:first-child { grid-column: 1 / -1; }   /* one wide on top, two below */
   }
 
   @media (max-width: 760px) {
@@ -292,9 +302,9 @@
     .title-block, .lines { grid-row: auto; }
     .lead { margin-top: 0; }
     .refs, .map { height: auto; }
-    .grid, .grid.trio, .grid.duo, .grid.four, .grid.mix { grid-template-rows: none; grid-auto-rows: auto; }
+    .grid, .grid.trio, .grid.duo, .grid.four, .grid.mix, .grid.three { grid-template-rows: none; grid-auto-rows: auto; }
     .grid .tile { aspect-ratio: 4 / 5; }
-    .grid.four .tile { aspect-ratio: 9 / 16; }
+    .grid.four .tile, .grid.three .tile:not(:first-child) { aspect-ratio: 9 / 16; }
     /* mix on a phone: image, wide film, the two vertical films side by side, wide film */
     .grid.mix .tile { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 16 / 10; }
     .grid.mix .tile:first-child { aspect-ratio: 4 / 5; }
@@ -358,6 +368,7 @@
   <a href="#particula-materia" data-act="materia" class="is-transition">Partícula para matéria</a>
   <a href="#prato-principal" data-act="principal">Prato principal</a>
   <a href="#sobremesa" data-act="sobremesa">Sobremesa</a>
+  <a href="#final" data-act="final">Final</a>
   <button type="button" id="fs">Tela cheia</button>
 </nav>
 
@@ -387,6 +398,7 @@
       <li class="is-transition"><a href="#particula-materia"><span class="shot"><img src="media/agua-2-cascata.jpg" alt="" style="object-position:42% 55%"></span><span class="label"><b>Partícula para matéria</b><span>As partículas ganham corpo.</span></span></a></li>
       <li><a href="#prato-principal"><span class="shot"><video src="media/principal-1-gotas.mp4" poster="media/principal-1-gotas.jpg" muted loop playsinline preload="metadata" style="object-position:50% 45%"></video></span><span class="label"><b>Prato principal</b><span>Formas orgânicas, água e ácido hialurônico.</span></span></a></li>
       <li><a href="#sobremesa"><span class="shot"><img src="media/sobremesa-1-seda.jpg" alt="" style="object-position:50% 40%"></span><span class="label"><b>Sobremesa</b><span>A pele aparece, com textura de seda.</span></span></a></li>
+      <li><a href="#final"><span class="shot"><img src="media/final-1-mesa.jpg" alt="" style="object-position:50% 55%"></span><span class="label"><b>Final</b><span>Cristais na mesa quebram a luz em cores.</span></span></a></li>
     </ol>
   </section>
 
@@ -619,6 +631,31 @@
       <button type="button" class="tile" aria-label="Ampliar: flor em preto e branco com reflexos de arco-íris"><video src="media/sobremesa-3-flor.mp4" poster="media/sobremesa-3-flor.jpg" muted loop playsinline preload="metadata"></video></button>
     </div>
   </section>
+  <!-- ================================================= FINAL -->
+  <section class="slide opener" id="final" data-act="final" aria-label="Final">
+    <div class="copy">
+      <p class="statement reveal">No final, a pele vira jóia. Cristais tomam a mesa e quebram a luz em cores que correm por tudo.</p>
+      <dl class="pairs reveal">
+        <div><dt>Cristais</dt><dd>Transparentes e facetados, sobre a mesa.</dd></div>
+        <div><dt>Luz</dt><dd>Atravessa os cristais e se abre em arco-íris.</dd></div>
+        <div><dt>Pele como jóia</dt><dd>O brilho que fecha a noite.</dd></div>
+        <div><dt>Nos pratos</dt><dd>Reflexos de cristal e luz colorida.</dd></div>
+      </dl>
+    </div>
+    <div class="title-block reveal">
+      <p class="kind">Etapa</p>
+      <h2 class="name">Final</h2>
+    </div>
+  </section>
+
+  <section class="slide refs" id="final-referencias" data-act="final" aria-label="Final, referências">
+    <h2 class="head"><b>Final</b><span>Referências</span></h2>
+    <div class="grid three">
+      <button type="button" class="tile" aria-label="Ampliar: mesa com peças de cristal espalhando luz em arco-íris no escuro"><img src="media/final-1-mesa.jpg" alt="" style="object-position:50% 55%"></button>
+      <button type="button" class="tile" aria-label="Ampliar: mosaico de cristal holográfico brilhando"><video src="media/final-2-mosaico.mp4" poster="media/final-2-mosaico.jpg" muted loop playsinline preload="metadata"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: luz atravessando uma peça de cristal"><video src="media/final-3-luz.mp4" poster="media/final-3-luz.jpg" muted loop playsinline preload="metadata"></video></button>
+    </div>
+  </section>
 </main>
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Referência ampliada" hidden>
@@ -646,6 +683,14 @@
 
   const play = (v) => { try { const p = v.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} };
 
+  // on narrow phones the navigation slides sideways: keep the current act's link visible
+  const nav = document.querySelector(".nav");
+  function showLink(a) {
+    if (nav.scrollWidth <= nav.clientWidth) return;
+    if (a.offsetLeft < nav.scrollLeft) nav.scrollLeft = a.offsetLeft;
+    else if (a.offsetLeft + a.offsetWidth > nav.scrollLeft + nav.clientWidth) nav.scrollLeft = a.offsetLeft + a.offsetWidth - nav.clientWidth;
+  }
+
   // ---------- which slide is on screen (drives the act navigation and the arrow keys)
   let current = 0;
   const ratios = new Map();
@@ -656,7 +701,7 @@
     current = best;
     const act = slides[current].dataset.act;
     navLinks.forEach((a) => {
-      if (a.dataset.act === act) a.setAttribute("aria-current", "true");
+      if (a.dataset.act === act) { a.setAttribute("aria-current", "true"); showLink(a); }
       else a.removeAttribute("aria-current");
     });
   }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
