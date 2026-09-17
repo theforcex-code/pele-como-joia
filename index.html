@@ -135,6 +135,7 @@
   }
   .route a { display: grid; gap: calc(var(--mgap) * 0.7); width: fit-content; max-width: 100%; color: inherit; text-decoration: none; }
   .route .shot { position: relative; display: block; width: var(--square); max-width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: var(--tile); }
+  .route .shot-empty { display: grid; place-items: center; font-size: var(--small); color: #d61f1f; }   /* stop still to be defined */
   .route img, .route video {
     position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
     transition: transform 0.9s var(--ease);
@@ -368,6 +369,7 @@
 <body>
 <nav class="nav" aria-label="Atos">
   <a href="#inicio" data-act="inicio">Início</a>
+  <a href="#couvert" data-act="couvert">Couvert</a>
   <a href="#big-bang" data-act="big-bang" class="is-transition">Big bang</a>
   <a href="#entrada" data-act="entrada">Entrada</a>
   <a href="#particula-materia" data-act="materia" class="is-transition">Partícula para matéria</a>
@@ -391,7 +393,7 @@
   <!-- ================================================= TEMA -->
   <section class="slide theme" id="tema" aria-label="O despertar da matéria">
     <h2 class="head"><b>O despertar da matéria</b><span>Tema</span></h2>
-    <p class="theme-text reveal">O despertar da matéria é um jantar multissensorial sobre a pele. Em cinco etapas, a sala, o som e os pratos contam uma transformação: a pele começa áspera como pedra e areia, é hidratada pela água, como faz o ácido hialurônico, fica macia como seda e termina brilhando como jóia.</p>
+    <p class="theme-text reveal">O despertar da matéria é um jantar multissensorial sobre a pele. Em seis etapas, a sala, o som e os pratos contam uma transformação: a pele começa áspera como pedra e areia, é hidratada pela água, como faz o ácido hialurônico, fica macia como seda e termina brilhando como jóia.</p>
   </section>
 
   <!-- ================================================= MAPA -->
@@ -399,6 +401,7 @@
     <h2 class="head"><b>O jantar</b><span>Mapa</span></h2>
     <ol class="route">
       <li><a href="#inicio"><span class="shot"><video src="media/forma-2-anel.mp4" poster="media/forma-2-anel.jpg" muted loop playsinline preload="metadata" style="object-position:50% 34%"></video></span><span class="label"><b>Início</b><span>Sala branca. A forma recebe os convidados, os leva à mesa e abre a noite.</span></span></a></li>
+      <li><a href="#couvert"><span class="shot shot-empty">Não definido</span><span class="label"><b>Couvert</b><span>Servido com todos já sentados à mesa.</span></span></a></li>
       <li class="is-transition"><a href="#big-bang"><span class="shot"><video src="media/bb-capa-nucleo.mp4" poster="media/bb-capa-nucleo.jpg" muted loop playsinline preload="metadata" style="object-position:50% 46%"></video></span><span class="label"><b>Big bang</b><span>A passagem mais rápida, em preto e branco.</span></span></a></li>
       <li><a href="#entrada"><span class="shot"><img src="media/entrada-1-areia-dourada.jpg" alt="" style="object-position:50% 72%"></span><span class="label"><b>Entrada</b><span>Crosta, pedras e areia dourada até os pratos.</span></span></a></li>
       <li class="is-transition"><a href="#particula-materia"><span class="shot"><img src="media/agua-2-cascata.jpg" alt="" style="object-position:42% 55%"></span><span class="label"><b>Partícula para matéria</b><span>As partículas ganham corpo.</span></span></a></li>
@@ -443,6 +446,23 @@
   </section>
 
 
+
+  <!-- ================================================= COUVERT -->
+  <section class="slide opener" id="couvert" data-act="couvert" aria-label="Couvert">
+    <div class="title-block reveal">
+      <p class="kind">Etapa</p>
+      <h2 class="name">Couvert</h2>
+    </div>
+    <div class="copy">
+      <p class="statement reveal">Com todos já sentados à mesa, o couvert é servido.</p>
+      <dl class="pairs reveal">
+        <div><dt>Os convidados</dt><dd>Já sentados, recebem o couvert.</dd></div>
+        <div><dt>O couvert</dt><dd class="undefined">Não definido</dd></div>
+        <div><dt>Nos pratos</dt><dd class="undefined">Não definido</dd></div>
+        <div><dt>Som</dt><dd class="undefined">Não definido</dd></div>
+      </dl>
+    </div>
+  </section>
 
   <!-- ================================================= BIG BANG -->
   <section class="slide dark bb-title" id="big-bang" data-act="big-bang" aria-label="Big bang">
