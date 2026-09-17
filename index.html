@@ -22,35 +22,41 @@
     --void-mute: #9a9a9a;
     --void-tile: #1a1a1a;
     --rule: #e2e2e2;
+    --frame: #e4e4e4;                         /* the table the pages rest on */
+
+    --fgap: clamp(6px, 0.6vw, 12px);          /* space around and between pages */
+    --radius: clamp(14px, 1.5vw, 28px);       /* page corners */
 
     --helvetica: "Helvetica Neue", Helvetica, Arial, sans-serif;
     --pad: clamp(16px, 2vw, 40px);
     --gap: clamp(6px, 0.55vw, 10px);
     /* act names: sized so CONVERSAÇÃO spans the width and never breaks */
-    --name: min(calc((100vw - 2 * var(--pad)) / 7.8), 26vh);
+    --name: min(calc((100vw - 2 * var(--pad) - 2 * var(--fgap)) / 7.8), 26vh);
     --statement: clamp(22px, 2.2vw, 46px);
     --body: clamp(16px, 1.2vw, 22px);
     --small: clamp(13px, 0.9vw, 15px);
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  html { background: var(--paper); }
+  html { background: var(--frame); }
   @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
   body {
     margin: 0; overflow-x: clip;
-    background: var(--paper); color: var(--ink);
+    background: var(--frame); color: var(--ink);
     font-family: var(--helvetica); -webkit-font-smoothing: antialiased;
   }
   [hidden] { display: none !important; }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-  /* ------------------------------------------------ slides: free scrolling, each one screen tall */
+  /* ------------------------------------------------ slides: free scrolling, each one a rounded page one screen tall */
+  main { display: block; padding: var(--fgap); }
   .slide {
     position: relative; box-sizing: border-box;
-    min-height: 100vh; min-height: 100svh;
-    padding: var(--pad);
+    min-height: calc(100vh - 2 * var(--fgap)); min-height: calc(100svh - 2 * var(--fgap));
+    padding: var(--pad); border-radius: var(--radius); scroll-margin-top: var(--fgap);
     background: var(--paper); color: var(--ink);
   }
+  .slide + .slide { margin-top: var(--fgap); }
   .slide.dark {
     background: var(--void); color: var(--void-ink);
     --mute: var(--void-mute); --tile: var(--void-tile);
@@ -78,13 +84,11 @@
   .pairs div { display: grid; gap: 0.3em; align-content: start; }
   .pairs dt { font-size: var(--body); font-weight: 500; }
   .pairs dd { margin: 0; font-size: var(--body); line-height: 1.4; color: var(--mute); }
-  /* a new stage after a white slide: a hairline marks the break */
-  section.opener:not(:first-of-type) { box-shadow: inset 0 1px 0 var(--rule); }
   .title-block { grid-row: 3; display: grid; gap: calc(var(--pad) * 0.5); }
   .kind { margin: 0; font-size: var(--statement); font-weight: 400; line-height: 1; letter-spacing: -0.015em; }
 
   /* cover: the theme's name on plain white */
-  .cover-main { height: 100vh; height: 100svh; display: grid; align-content: end; overflow: hidden; }
+  .cover-main { height: calc(100vh - 2 * var(--fgap)); height: calc(100svh - 2 * var(--fgap)); display: grid; align-content: end; overflow: hidden; }
   .cover-copy { position: relative; display: grid; gap: calc(var(--pad) * 0.5); }
 
   /* theme: three lines resting on the floor of the slide */
@@ -138,7 +142,7 @@
 
   /* references: a strict three by two grid */
   .refs {
-    height: 100vh; height: 100svh;
+    height: calc(100vh - 2 * var(--fgap)); height: calc(100svh - 2 * var(--fgap));
     display: grid; grid-template-rows: auto minmax(0, 1fr); gap: calc(var(--pad) * 0.7);
   }
   .grid {
@@ -162,7 +166,7 @@
   /* plates: the copy on the left, two sand films at full height on the right, on the films' own black */
   .slide.black { background: #000000; }
   .plates {
-    height: 100vh; height: 100svh;
+    height: calc(100vh - 2 * var(--fgap)); height: calc(100svh - 2 * var(--fgap));
     display: grid; grid-template-columns: minmax(16rem, 0.5fr) minmax(0, 1fr); gap: calc(var(--pad) * 1.5);
   }
   .plates-copy { display: grid; grid-template-rows: auto minmax(var(--pad), 1fr) auto; min-width: 0; }
@@ -191,7 +195,7 @@
 
   /* big bang, cover: the middle film edge to edge on every screen; the name over it.
      Landscape screens get a 16:9 cut around the core, portrait screens the whole vertical film. */
-  .bb-title { height: 100vh; height: 100svh; padding: 0; overflow: hidden; }
+  .bb-title { height: calc(100vh - 2 * var(--fgap)); height: calc(100svh - 2 * var(--fgap)); padding: 0; overflow: hidden; }
   .cover-film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; display: block; }
   .cover-portrait { display: none; }
   @media (orientation: portrait) { .cover-landscape { display: none; } .cover-portrait { display: block; } }
@@ -227,8 +231,8 @@
   /* ------------------------------------------------ navigation by act */
   .nav {
     position: fixed; z-index: 10;
-    top: calc(var(--pad) + env(safe-area-inset-top, 0px)); right: var(--pad);
-    display: flex; align-items: baseline; gap: clamp(14px, 1.5vw, 30px);
+    top: calc(var(--pad) + var(--fgap) + env(safe-area-inset-top, 0px)); right: calc(var(--pad) + var(--fgap));
+    display: flex; align-items: baseline; gap: clamp(10px, 1vw, 24px);
     font-size: var(--small); color: #ffffff; mix-blend-mode: difference;
   }
   .nav a, .nav button {
@@ -284,12 +288,12 @@
     .sand.one { grid-template-columns: minmax(0, 1fr); }
     .sand.one .tile { aspect-ratio: 4 / 5; }
   }
-  @media (max-width: 1080px) { .nav a.is-transition { display: none; } }
+  @media (max-width: 1300px) { .nav a.is-transition { display: none; } }
   @media (max-width: 640px) {
     .pairs { grid-template-columns: minmax(0, 1fr); }
     .nav button { display: none; }
     /* phones: one tight line, right-aligned; on very narrow screens it slides sideways instead of wrapping */
-    .nav { left: var(--pad); gap: 8px; font-size: 12px; overflow-x: auto; scrollbar-width: none; }
+    .nav { left: calc(var(--pad) + var(--fgap)); right: calc(var(--pad) + var(--fgap)); gap: 6px; font-size: 12px; overflow-x: auto; scrollbar-width: none; }
     .nav::-webkit-scrollbar { display: none; }
     .nav a { flex-shrink: 0; white-space: nowrap; }
     .nav a:first-child { margin-left: auto; }
@@ -372,6 +376,7 @@
   <a href="#entrada" data-act="entrada">Entrada</a>
   <a href="#particula-materia" data-act="materia" class="is-transition">Partícula para matéria</a>
   <a href="#prato-principal" data-act="principal">Prato principal</a>
+  <a href="#materia-seda" data-act="seda" class="is-transition">Matéria para seda</a>
   <a href="#sobremesa" data-act="sobremesa">Sobremesa</a>
   <a href="#final" data-act="final">Final</a>
   <button type="button" id="fs">Tela cheia</button>
@@ -402,6 +407,7 @@
       <li><a href="#entrada"><span class="shot"><img src="media/entrada-1-areia-dourada.jpg" alt="" style="object-position:50% 72%"></span><span class="label"><b>Entrada</b><span>Crosta, pedras e areia dourada até os pratos.</span></span></a></li>
       <li class="is-transition"><a href="#particula-materia"><span class="shot"><img src="media/agua-2-cascata.jpg" alt="" style="object-position:42% 55%"></span><span class="label"><b>Partícula para matéria</b><span>As partículas ganham corpo.</span></span></a></li>
       <li><a href="#prato-principal"><span class="shot"><video src="media/principal-1-gotas.mp4" poster="media/principal-1-gotas.jpg" muted loop playsinline preload="metadata" style="object-position:50% 45%"></video></span><span class="label"><b>Prato principal</b><span>Formas orgânicas, água e ácido hialurônico.</span></span></a></li>
+      <li class="is-transition"><a href="#materia-seda"><span class="shot"><img src="media/seda-transicao.jpg" alt="" style="object-position:50% 50%"></span><span class="label"><b>Matéria para seda</b><span>A matéria vira dobras de seda.</span></span></a></li>
       <li><a href="#sobremesa"><span class="shot"><img src="media/sobremesa-1-seda.jpg" alt="" style="object-position:50% 40%"></span><span class="label"><b>Sobremesa</b><span>A pele aparece, com textura de seda.</span></span></a></li>
       <li><a href="#final"><span class="shot"><img src="media/final-1-mesa.jpg" alt="" style="object-position:50% 55%"></span><span class="label"><b>Final</b><span>Cristais na mesa quebram a luz em cores.</span></span></a></li>
     </ol>
@@ -608,6 +614,14 @@
     <div class="sand two">
       <button type="button" class="tile" aria-label="Ampliar: esfera de vidro com matéria orgânica que muda de cor"><video src="media/principal-2-esfera.mp4" poster="media/principal-2-esfera.jpg" muted loop playsinline preload="metadata" style="object-fit:cover"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: gota de vidro líquido girando no escuro"><video src="media/pratos-materia-gota.mp4" poster="media/pratos-materia-gota.jpg" muted loop playsinline preload="metadata" style="--zoom:1.35"></video></button>
+    </div>
+  </section>
+  <!-- ================================================= TRANSIÇÃO: MATÉRIA PARA SEDA -->
+  <section class="slide dark bb-title fluid" id="materia-seda" data-act="seda" aria-label="Matéria para seda">
+    <video class="cover-film" src="media/seda-transicao.mp4" poster="media/seda-transicao.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    <div class="caption">
+      <p class="kind">Transição</p>
+      <h2 class="name">Matéria<br>para seda</h2>
     </div>
   </section>
   <!-- ================================================= SOBREMESA -->
