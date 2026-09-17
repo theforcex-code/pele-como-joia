@@ -90,8 +90,18 @@
   .title-block { grid-row: 3; display: grid; gap: calc(var(--pad) * 0.5); }
   .kind { margin: 0; font-size: var(--statement); font-weight: 400; line-height: 1; letter-spacing: -0.015em; }
 
-  /* cover: the theme's name on plain white */
-  .cover-main { height: calc(100vh - 2 * var(--fgap)); height: calc(100svh - 2 * var(--fgap)); display: grid; align-content: end; overflow: hidden; }
+  /* cover: the theme's name over the chrome film, on the film's own grey */
+  .cover-main { height: calc(100vh - 2 * var(--fgap)); height: calc(100svh - 2 * var(--fgap)); display: grid; align-content: end; overflow: hidden; background: linear-gradient(#696969, #9f9f9f 50%, #ececec); }
+  .cover-main .cover-film { z-index: 0; }
+  /* a light mist over the film, at the top for the navigation and at the floor for the title */
+  .cover-main::before, .cover-main::after { content: ""; position: absolute; left: 0; right: 0; z-index: 1; pointer-events: none; }
+  .cover-main::before { top: 0; height: 22%; background: linear-gradient(to bottom, rgba(236, 236, 236, 0.85), rgba(236, 236, 236, 0)); }
+  .cover-main::after { bottom: 0; height: 60%; background: linear-gradient(to top, rgba(236, 236, 236, 0.94), rgba(236, 236, 236, 0.72) 38%, rgba(236, 236, 236, 0)); }
+  .cover-main .cover-copy { z-index: 2; }
+  /* portrait screens: the whole ring in the upper half, fading into the film's own grey */
+  @media (orientation: portrait) {
+    .cover-main .cover-film { height: 50%; object-position: 50% 45%; -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent); mask-image: linear-gradient(to bottom, #000 70%, transparent); }
+  }
   .cover-copy { position: relative; display: grid; gap: calc(var(--pad) * 0.5); }
 
   /* theme: three lines resting on the floor of the slide */
@@ -393,6 +403,7 @@
 <main>
   <!-- ================================================= CAPA -->
   <section class="slide cover-main" id="capa" aria-label="Pele como Jóia">
+    <video class="cover-film" src="media/capa-cromo.mp4" poster="media/capa-cromo.jpg" muted loop playsinline autoplay preload="auto" aria-hidden="true"></video>
     <div class="cover-copy">
       <p class="kind">Pele como jóia</p>
       <h1 class="name two-lines">O despertar<br>da matéria</h1>
