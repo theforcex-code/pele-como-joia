@@ -180,6 +180,7 @@
   .grid.duo { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
   /* four vertical films: one row of tall columns */
   .grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
+  .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
   /* five references: a tall image, two wide films stacked beside it, two vertical films */
   .grid.mix { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr) minmax(0, 0.55fr) minmax(0, 0.55fr); }
   .grid.mix .tall { grid-row: span 2; }
@@ -284,6 +285,8 @@
   @media (orientation: portrait) and (max-width: 900px) {
     .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); }
     .grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
+    .grid.three { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
+    .grid.three .tile:first-child { grid-column: 1 / -1; }   /* one wide on top, two below */
   }
 
   @media (max-width: 760px) {
@@ -292,9 +295,9 @@
     .title-block, .lines { grid-row: auto; }
     .lead { margin-top: 0; }
     .refs, .map { height: auto; }
-    .grid, .grid.trio, .grid.duo, .grid.four, .grid.mix { grid-template-rows: none; grid-auto-rows: auto; }
+    .grid, .grid.trio, .grid.duo, .grid.four, .grid.mix, .grid.three { grid-template-rows: none; grid-auto-rows: auto; }
     .grid .tile { aspect-ratio: 4 / 5; }
-    .grid.four .tile { aspect-ratio: 9 / 16; }
+    .grid.four .tile, .grid.three .tile:not(:first-child) { aspect-ratio: 9 / 16; }
     /* mix on a phone: image, wide film, the two vertical films side by side, wide film */
     .grid.mix .tile { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 16 / 10; }
     .grid.mix .tile:first-child { aspect-ratio: 4 / 5; }
@@ -357,6 +360,7 @@
   <a href="#entrada" data-act="entrada">Entrada</a>
   <a href="#particula-materia" data-act="materia" class="is-transition">Partícula para matéria</a>
   <a href="#prato-principal" data-act="principal">Prato principal</a>
+  <a href="#sobremesa" data-act="sobremesa">Sobremesa</a>
   <button type="button" id="fs">Tela cheia</button>
 </nav>
 
@@ -385,6 +389,7 @@
       <li><a href="#entrada"><span class="shot"><img src="media/entrada-1-areia-dourada.jpg" alt="" style="object-position:50% 72%"></span><span class="label"><b>Entrada</b><span>Crosta, pedras e areia dourada até os pratos.</span></span></a></li>
       <li class="is-transition"><a href="#particula-materia"><span class="shot"><img src="media/agua-2-cascata.jpg" alt="" style="object-position:42% 55%"></span><span class="label"><b>Partícula para matéria</b><span>As partículas ganham corpo.</span></span></a></li>
       <li><a href="#prato-principal"><span class="shot"><video src="media/principal-1-gotas.mp4" poster="media/principal-1-gotas.jpg" muted loop playsinline preload="metadata" style="object-position:50% 45%"></video></span><span class="label"><b>Prato principal</b><span>Formas orgânicas, água e ácido hialurônico.</span></span></a></li>
+      <li><a href="#sobremesa"><span class="shot"><img src="media/sobremesa-1-seda.jpg" alt="" style="object-position:50% 40%"></span><span class="label"><b>Sobremesa</b><span>A pele aparece, com textura de seda.</span></span></a></li>
     </ol>
   </section>
 
@@ -589,6 +594,31 @@
     <div class="sand two">
       <button type="button" class="tile" aria-label="Ampliar: esfera de vidro com matéria orgânica que muda de cor"><video src="media/principal-2-esfera.mp4" poster="media/principal-2-esfera.jpg" muted loop playsinline preload="metadata" style="object-fit:cover"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: gota de vidro líquido girando no escuro"><video src="media/pratos-materia-gota.mp4" poster="media/pratos-materia-gota.jpg" muted loop playsinline preload="metadata" style="--zoom:1.35"></video></button>
+    </div>
+  </section>
+  <!-- ================================================= SOBREMESA -->
+  <section class="slide opener" id="sobremesa" data-act="sobremesa" aria-label="Sobremesa">
+    <div class="copy">
+      <p class="statement reveal">Depois da água, a pele aparece. Na sobremesa ela surge lisa e luminosa, com a textura da seda: a pele cuidada, como jóia.</p>
+      <dl class="pairs reveal">
+        <div><dt>Pele</dt><dd>Revelada, macia e luminosa.</dd></div>
+        <div><dt>Seda</dt><dd>Dobras, brilho e movimento suave.</dd></div>
+        <div><dt>Luz</dt><dd>Reflexos que correm pela superfície.</dd></div>
+        <div><dt>Nos pratos</dt><dd>A sobremesa servida em dobras e brilho de seda.</dd></div>
+      </dl>
+    </div>
+    <div class="title-block reveal">
+      <p class="kind">Etapa</p>
+      <h2 class="name">Sobremesa</h2>
+    </div>
+  </section>
+
+  <section class="slide refs" id="sobremesa-referencias" data-act="sobremesa" aria-label="Sobremesa, referências">
+    <h2 class="head"><b>Sobremesa</b><span>Referências</span></h2>
+    <div class="grid three">
+      <button type="button" class="tile" aria-label="Ampliar: pele com textura de seda e pontos de brilho"><img src="media/sobremesa-1-seda.jpg" alt="" style="object-position:50% 40%"></button>
+      <button type="button" class="tile" aria-label="Ampliar: dobras de seda cor de âmbar em movimento"><video src="media/sobremesa-2-dobras.mp4" poster="media/sobremesa-2-dobras.jpg" muted loop playsinline preload="metadata"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: flor em preto e branco com reflexos de arco-íris"><video src="media/sobremesa-3-flor.mp4" poster="media/sobremesa-3-flor.jpg" muted loop playsinline preload="metadata"></video></button>
     </div>
   </section>
 </main>
