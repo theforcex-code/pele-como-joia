@@ -198,7 +198,8 @@
   .grid.duo { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
   /* four vertical films: one row of tall columns */
   .grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
-  .grid.five { grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
+  /* five references: one tall film, then two pairs beside it (the small tiles match a 3x2 tile) */
+  .grid.solo .tall { grid-row: span 2; }
   /* seven references: tall, pair, tall, pair, tall */
   .grid.rhythm { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   .grid.rhythm .tall { grid-row: span 2; }
@@ -324,10 +325,9 @@
   @media (orientation: portrait) and (max-width: 900px) {
     .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); }
     .grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
-    .grid.five { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); }
     .grid.rhythm { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(4, minmax(0, 1fr)); }
     .grid.rhythm .tall { grid-row: auto; }
-    .grid.five .tile:first-child, .grid.rhythm .tile:first-child { grid-column: 1 / -1; }   /* one wide on top, then pairs */
+    .grid.rhythm .tile:first-child { grid-column: 1 / -1; }   /* one wide on top, then pairs */
     .grid.three { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
     .grid.three .tile:first-child { grid-column: 1 / -1; }   /* one wide on top, two below */
   }
@@ -338,9 +338,10 @@
     .title-block, .lines { grid-row: auto; }
     .lead { margin-top: 0; }
     .refs, .map { height: auto; }
-    .grid, .grid.trio, .grid.duo, .grid.four, .grid.mix, .grid.three, .grid.five, .grid.rhythm { grid-template-rows: none; grid-auto-rows: auto; }
+    .grid, .grid.trio, .grid.duo, .grid.four, .grid.mix, .grid.three, .grid.rhythm { grid-template-rows: none; grid-auto-rows: auto; }
     .grid .tile { aspect-ratio: 4 / 5; }
-    .grid.four .tile, .grid.three .tile:not(:first-child), .grid.five .tile:not(:first-child) { aspect-ratio: 9 / 16; }
+    .grid.four .tile, .grid.three .tile:not(:first-child) { aspect-ratio: 9 / 16; }
+    .grid.solo .tall { aspect-ratio: auto; }   /* spans two rows of 4:5 tiles */
     /* mix on a phone: image, wide film, the two vertical films side by side, wide film */
     .grid.mix .tile { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 16 / 10; }
     .grid.mix .tile:first-child { aspect-ratio: 4 / 5; }
@@ -489,11 +490,11 @@
 
   <section class="slide refs" id="conversacao-referencias" data-act="conversacao" aria-label="Conversação, referências">
     <h2 class="head"><b>Conversação</b><span>Referências</span></h2>
-    <div class="grid five">
+    <div class="grid solo">
+      <button type="button" class="tile tall" aria-label="Ampliar: anel líquido iridescente"><video src="media/forma-2-anel.mp4" poster="media/forma-2-anel.jpg" muted loop playsinline preload="metadata" style="object-position:50% 30%"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: filamentos de luz branca que se formam no escuro"><video src="media/forma-1-filamentos.mp4" poster="media/forma-1-filamentos.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
-      <button type="button" class="tile" aria-label="Ampliar: anel líquido iridescente"><video src="media/forma-2-anel.mp4" poster="media/forma-2-anel.jpg" muted loop playsinline preload="metadata" style="object-position:50% 30%"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: esfera de água que vira cubo cristalino"><video src="media/forma-3-agua.mp4" poster="media/forma-3-agua.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
-      <button type="button" class="tile" aria-label="Ampliar: membrana de vidro que se dobra e se abre"><video src="media/forma-4-membrana.mp4" poster="media/forma-4-membrana.jpg" muted loop playsinline preload="metadata" style="object-position:50% 40%"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: membrana de vidro que se dobra e se abre"><video src="media/forma-4-membrana.mp4" poster="media/forma-4-membrana.jpg" muted loop playsinline preload="metadata" style="object-position:50% 57%"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: disco de partículas girando numa sala escura"><video src="media/forma-6-portal.mp4" poster="media/forma-6-portal.jpg" muted loop playsinline preload="metadata" style="object-position:50% 42%"></video></button>
     </div>
   </section>
