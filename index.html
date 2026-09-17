@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Pele como Jóia: o despertar da matéria. Apresentação do jantar.">
+<title>Pele como Jóia</title>
+<style>
+  /*
+    Swiss gallery system. White ground and Helvetica, as briefed; the images carry the colour.
+    The big bang is the one deliberate inversion: black and white, and its motion moves in steps.
+    Deliberately single-theme: every colour is painted explicitly.
+  */
+  :root {
+    color-scheme: light;
+    --paper: #ffffff;
+    --ink: #111111;
+    --mute: #6e6e6e;
+    --tile: #eeeeee;
+    --void: #0b0b0b;
+    --void-ink: #f2f2f2;
+    --void-mute: #9a9a9a;
+    --void-tile: #1a1a1a;
+    --rule: #e2e2e2;
+
+    --helvetica: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --pad: clamp(16px, 2vw, 40px);
+    --gap: clamp(6px, 0.55vw, 10px);
+    /* act names: sized so CONVERSAÇÃO spans the width and never breaks */
+    --name: min(calc((100vw - 2 * var(--pad)) / 7.8), 26vh);
+    --statement: clamp(22px, 2.2vw, 46px);
+    --body: clamp(16px, 1.2vw, 22px);
+    --small: clamp(13px, 0.9vw, 15px);
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html { background: var(--paper); }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  body {
+    margin: 0; overflow-x: clip;
+    background: var(--paper); color: var(--ink);
+    font-family: var(--helvetica); -webkit-font-smoothing: antialiased;
+  }
+  [hidden] { display: none !important; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ------------------------------------------------ slides: free scrolling, each one screen tall */
+  .slide {
+    position: relative; box-sizing: border-box;
+    min-height: 100vh; min-height: 100svh;
+    padding: var(--pad);
+    background: var(--paper); color: var(--ink);
+  }
+  .slide.dark {
+    background: var(--void); color: var(--void-ink);
+    --mute: var(--void-mute); --tile: var(--void-tile);
+  }
+
+  .name {
+    margin: 0; font-size: var(--name); font-weight: 500;
+    line-height: 0.8; letter-spacing: -0.05em; text-transform: uppercase;
+    white-space: nowrap; margin-left: -0.05em; padding-top: 0.12em; word-spacing: 0.14em;
+  }
+
+  /* act opener: the text sits in the upper left, the name lands on the floor of the page */
+  .opener { display: grid; grid-template-rows: auto minmax(var(--pad), 1fr) auto; }
+  .copy { display: grid; gap: calc(var(--pad) * 1.3); max-width: min(64rem, 64%); align-content: start; }
+  .statement {
+    margin: 0; max-width: 26em;
+    font-size: var(--statement); font-weight: 400;
+    line-height: 1.16; letter-spacing: -0.015em; text-wrap: balance;
+  }
+  .pairs {
+    margin: 0; max-width: 44rem;
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: calc(var(--pad) * 0.9) var(--pad);
+  }
+  .pairs div { display: grid; gap: 0.3em; align-content: start; }
+  .pairs dt { font-size: var(--body); font-weight: 500; }
+  .pairs dd { margin: 0; font-size: var(--body); line-height: 1.4; color: var(--mute); }
+  /* a new stage after a white slide: a hairline marks the break */
+  section.opener:not(:first-of-type) { box-shadow: inset 0 1px 0 var(--rule); }
+  .title-block { grid-row: 3; display: grid; gap: calc(var(--pad) * 0.5); }
+  .kind { margin: 0; font-size: var(--statement); font-weight: 400; line-height: 1; letter-spacing: -0.015em; }
+
+  /* cover: the room breathes; light and particles gather slowly behind the name */
+  .cover-main { height: 100vh; height: 100svh; display: grid; align-content: end; overflow: hidden; }
+  .breath { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .cover-copy { position: relative; display: grid; gap: calc(var(--pad) * 0.5); }
+
+  /* theme: three lines resting on the floor of the slide */
+  .theme { display: grid; grid-template-rows: auto minmax(var(--pad), 1fr) auto; }
+  .theme-text {
+    grid-row: 3; margin: 0; max-width: min(62rem, 72%);
+    font-size: clamp(24px, 2.6vw, 54px); font-weight: 400;
+    line-height: 1.16; letter-spacing: -0.02em; text-wrap: balance;
+  }
+
+  /* map: the evening from top to bottom. One column; a line runs beside it, one mark per moment
+     (filled for a stage, open for a transition), and it draws itself as the reader goes down. */
+  .map {
+    --node: 11px;
+    --mgap: clamp(14px, 1.4vw, 26px);
+    --square: clamp(160px, 17vw, 280px);
+  }
+  .map .head { margin-bottom: calc(var(--pad) * 1.6); }
+  .route { list-style: none; margin: 0 auto; padding: 0; width: min(100%, calc(var(--square) + 14rem)); }
+  .route li { position: relative; padding: 0 0 clamp(40px, 4.8vw, 80px) calc(var(--node) + var(--mgap) * 1.8); }
+  .route li:last-child { padding-bottom: 0; }
+  .route li::after {
+    content: ""; position: absolute; left: 0; top: 0;
+    width: var(--node); height: var(--node); border-radius: 50%; background: var(--ink);
+  }
+  .route li.is-transition::after { background: var(--paper); box-shadow: inset 0 0 0 1.5px var(--ink); }
+  .route li:not(:last-child)::before {
+    content: ""; position: absolute; left: calc(var(--node) / 2 - 0.5px); top: calc(var(--node) + 6px); bottom: 6px;
+    width: 1px; background: var(--ink); transform-origin: top;
+  }
+  .route a { display: grid; gap: calc(var(--mgap) * 0.7); width: fit-content; max-width: 100%; color: inherit; text-decoration: none; }
+  .route .shot { position: relative; display: block; width: var(--square); max-width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: var(--tile); }
+  .route img, .route video {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.9s var(--ease);
+  }
+  .route a:hover img, .route a:hover video { transform: scale(1.03); }
+  .route a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+  .route .label { display: grid; gap: 0.3em; max-width: 24rem; }
+  .route .label b { font-size: var(--body); font-weight: 500; letter-spacing: -0.01em; line-height: 1.15; }
+  .route .label span { font-size: clamp(14px, 1vw, 18px); line-height: 1.38; color: var(--mute); }
+  .route .is-transition b { font-style: italic; }
+
+  /* slide heading: act name, then what the slide holds */
+  .head {
+    margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.55em;
+    font-size: clamp(20px, 1.7vw, 34px); font-weight: 500; line-height: 1; letter-spacing: -0.02em;
+  }
+  .head b { font-weight: 500; text-transform: uppercase; }
+  .head span { font-weight: 400; color: var(--mute); }
+
+  /* references: a strict three by two grid */
+  .refs {
+    height: 100vh; height: 100svh;
+    display: grid; grid-template-rows: auto minmax(0, 1fr); gap: calc(var(--pad) * 0.7);
+  }
+  .grid {
+    display: grid; min-height: 0; gap: var(--gap);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+  .tile {
+    position: relative; overflow: hidden; min-height: 0;
+    appearance: none; margin: 0; padding: 0; border: 0; font: inherit; color: inherit;
+    background: var(--tile); cursor: zoom-in;
+  }
+  .tile img, .tile video {
+    position: absolute; inset: 0; width: 100%; height: 100%; max-width: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.9s var(--ease);
+  }
+  .tile:hover img, .tile:hover video { transform: scale(1.015); }
+  .tile:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+  /* plates: the copy on the left, two sand films at full height on the right, on the films' own black */
+  .slide.black { background: #000000; }
+  .plates {
+    height: 100vh; height: 100svh;
+    display: grid; grid-template-columns: minmax(16rem, 0.5fr) minmax(0, 1fr); gap: calc(var(--pad) * 1.5);
+  }
+  .plates-copy { display: grid; grid-template-rows: auto minmax(var(--pad), 1fr) auto; min-width: 0; }
+  .plates-copy .copy { max-width: 36rem; }
+  .plates-copy .statement { font-size: calc(var(--statement) * 0.8); line-height: 1.2; }
+  .plates-copy .pairs { grid-template-columns: minmax(0, 1fr); }
+  .sand { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); min-height: 0; }
+  .sand .tile { height: 100%; background: #000000; }
+  .sand .tile video { object-fit: contain; transform: scale(var(--zoom, 1)); }
+  .sand .tile:hover video { transform: scale(calc(var(--zoom, 1) * 1.015)); }
+
+  /* three references: one tall image, two wide films stacked beside it */
+  .grid.trio { grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr); }
+  .grid.trio .tall { grid-row: 1 / span 2; }
+  .grid.duo { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
+  .name.two-lines { line-height: 0.86; }
+
+  /* big bang, cover: the middle film edge to edge on every screen; the name over it.
+     Landscape screens get a 16:9 cut around the core, portrait screens the whole vertical film. */
+  .bb-title { height: 100vh; height: 100svh; padding: 0; overflow: hidden; }
+  .cover-film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; display: block; }
+  .cover-portrait { display: none; }
+  @media (orientation: portrait) { .cover-landscape { display: none; } .cover-portrait { display: block; } }
+  .bb-title::before {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 30%; z-index: 1; pointer-events: none;
+    background: linear-gradient(to bottom, rgba(11, 11, 11, 0.86), rgba(11, 11, 11, 0.5) 40%, rgba(11, 11, 11, 0));
+  }
+  .bb-title::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(to top, rgba(11, 11, 11, 0.88) 0%, rgba(11, 11, 11, 0.4) 34%, rgba(11, 11, 11, 0) 62%);
+  }
+  .caption {
+    position: absolute; z-index: 1; left: var(--pad); right: var(--pad); bottom: var(--pad);
+    display: grid; gap: calc(var(--pad) * 0.5);
+  }
+  .bb-title.fluid .name { animation-timing-function: linear; line-height: 0.98; }
+
+  /* big bang, what happens: a fast list, one idea per line */
+  .bb-text { display: grid; grid-template-rows: auto auto minmax(var(--pad), 1fr) auto; }
+  .lead { margin: calc(var(--pad) * 1.6) 0 0; display: grid; gap: 0.5em; max-width: min(64rem, 100%); }
+  .lead strong {
+    display: block; font-weight: 500; letter-spacing: -0.03em; line-height: 1.02;
+    font-size: calc(var(--statement) * 1.55);
+  }
+  .lead span { font-size: var(--statement); line-height: 1.2; color: var(--mute); letter-spacing: -0.015em; }
+  .lines {
+    grid-row: 4; list-style: none; margin: 0; padding: 0;
+    display: grid; gap: 0.12em;
+    font-size: clamp(22px, 2.6vw, 54px); line-height: 1.12; letter-spacing: -0.02em;
+  }
+  .lines span { color: var(--mute); }
+
+  /* ------------------------------------------------ navigation by act */
+  .nav {
+    position: fixed; z-index: 10;
+    top: calc(var(--pad) + env(safe-area-inset-top, 0px)); right: var(--pad);
+    display: flex; align-items: baseline; gap: clamp(14px, 1.5vw, 30px);
+    font-size: var(--small); color: #ffffff; mix-blend-mode: difference;
+  }
+  .nav a, .nav button {
+    appearance: none; margin: 0; padding: 0; border: 0; background: none;
+    font: inherit; color: inherit; text-decoration: none; cursor: pointer;
+    opacity: 0.5; transition: opacity 0.3s ease;
+  }
+  .nav a[aria-current="true"], .nav a:hover, .nav button:hover { opacity: 1; }
+  .nav a.is-transition { font-style: italic; }
+  .nav button { margin-left: clamp(4px, 0.8vw, 16px); }
+  .nav a:focus-visible, .nav button:focus-visible { opacity: 1; outline: 1px solid currentColor; outline-offset: 4px; }
+
+  /* ------------------------------------------------ enlarged view */
+  .lb {
+    position: fixed; inset: 0; z-index: 20;
+    display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: calc(var(--pad) * 0.6);
+    padding: var(--pad);
+    padding-top: calc(var(--pad) + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px));
+    background: var(--paper); color: var(--ink);
+  }
+  .lb.is-dark { background: var(--void); color: var(--void-ink); }
+  .lb-bar { display: flex; justify-content: space-between; align-items: baseline; font-size: var(--small); font-variant-numeric: tabular-nums; }
+  .lb-bar button {
+    appearance: none; margin: 0; padding: 6px 0; border: 0; background: none;
+    font: inherit; color: inherit; cursor: pointer;
+  }
+  .lb-bar button:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .lb-bar button:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
+  .lb-stage { position: relative; min-height: 0; }
+  .lb-stage img, .lb-stage video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; display: block; }
+
+  /* ------------------------------------------------ small screens */
+  @media (max-width: 900px) {
+    .slide:not(.bb-title) { padding-top: calc(var(--pad) + 36px); }   /* room for the act navigation */
+    .copy { max-width: none; }
+  }
+  @media (max-aspect-ratio: 5/4) {
+    .plates { height: auto; grid-template-columns: minmax(0, 1fr); }
+    .plates-copy { grid-template-rows: auto auto auto; gap: var(--pad); }
+    .sand { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .sand .tile { height: auto; aspect-ratio: 9 / 16; }
+    .grid.trio { grid-template-columns: minmax(0, 1fr); grid-template-rows: repeat(3, minmax(0, 1fr)); }
+    .grid.trio .tall { grid-row: auto; }
+    .grid.duo { grid-template-columns: minmax(0, 1fr); grid-template-rows: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 1080px) { .nav a.is-transition { display: none; } }
+  @media (max-width: 640px) {
+    .pairs { grid-template-columns: minmax(0, 1fr); }
+    .nav button { display: none; }
+  }
+  @media (orientation: portrait) and (max-width: 900px) {
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 760px) {
+    .slide:not(.bb-title):not(.cover-main) { min-height: 0; padding-bottom: calc(var(--pad) * 2.4); }
+    .opener, .bb-text { grid-template-rows: none; gap: calc(var(--pad) * 2); }
+    .title-block, .lines { grid-row: auto; }
+    .lead { margin-top: 0; }
+    .refs, .map { height: auto; }
+    .grid, .grid.trio, .grid.duo { grid-template-rows: none; grid-auto-rows: auto; }
+    .grid .tile { aspect-ratio: 4 / 5; }
+    .grid.trio .tile:not(.tall) { aspect-ratio: 16 / 10; }
+    .map { --square: min(64vw, 260px); }
+    .route { width: 100%; margin: 0; }
+    .theme { grid-template-rows: none; gap: calc(var(--pad) * 1.6); }
+    .theme-text { grid-row: auto; max-width: none; }
+  }
+
+  /* ------------------------------------------------ motion
+     White acts ease in. The big bang moves in steps: quantised, mathematical, faster. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal, .grid .tile {
+        animation: rise var(--ease) both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 75%;
+      }
+      @keyframes rise { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: none; } }
+      .route a {
+        animation: rise var(--ease) both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 60%;
+      }
+      .route li:not(:last-child)::before {
+        animation: draw linear both;
+        animation-timeline: view();
+        animation-range: entry 30% cover 60%;
+      }
+      @keyframes draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+      .bb-title .name {
+        animation: shift steps(6, end) both;
+        animation-timeline: view();
+        animation-range: cover 15% cover 85%;
+      }
+      @keyframes shift { from { transform: translateX(0); } to { transform: translateX(-4vw); } }
+
+      .lines li {
+        animation: step-in steps(5, end) both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 100%;
+      }
+      @keyframes step-in { from { opacity: 0; transform: translateX(-3vw); } to { opacity: 1; transform: none; } }
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tile img, .tile video { transition: none; }
+    .tile:hover img, .tile:hover video { transform: none; }
+  }
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="Atos">
+  <a href="#inicio" data-act="inicio">Início</a>
+  <a href="#conversacao" data-act="conversacao">Conversação</a>
+  <a href="#big-bang" data-act="big-bang" class="is-transition">Big bang</a>
+  <a href="#entrada" data-act="entrada">Entrada</a>
+  <a href="#particula-materia" data-act="materia" class="is-transition">Partícula para matéria</a>
+  <a href="#prato-principal" data-act="principal">Prato principal</a>
+  <button type="button" id="fs">Tela cheia</button>
+</nav>
+
+<main>
+  <!-- ================================================= CAPA -->
+  <section class="slide cover-main" id="capa" aria-label="Pele como Jóia">
+    <canvas class="breath" aria-hidden="true"></canvas>
+    <div class="cover-copy">
+      <p class="kind">Pele como jóia</p>
+      <h1 class="name two-lines">O despertar<br>da matéria</h1>
+    </div>
+  </section>
+
+  <!-- ================================================= TEMA -->
+  <section class="slide theme" id="tema" aria-label="O despertar da matéria">
+    <h2 class="head"><b>O despertar da matéria</b><span>Tema</span></h2>
+    <p class="theme-text reveal">A sala respira. Antes que os pratos existam, a energia da criação se manifesta: luz, respiração e matéria começam a se organizar, como uma instalação viva.</p>
+  </section>
+
+  <!-- ================================================= MAPA -->
+  <section class="slide map" id="mapa" aria-label="Mapa do jantar">
+    <h2 class="head"><b>O jantar</b><span>Mapa</span></h2>
+    <ol class="route">
+      <li><a href="#inicio"><span class="shot"><img src="media/inicio-1-parede.jpg" alt="" style="object-position:50% 62%"></span><span class="label"><b>Início</b><span>Sala branca. A forma recebe cada convidado.</span></span></a></li>
+      <li><a href="#conversacao"><span class="shot"><video src="media/forma-2-anel.mp4" poster="media/forma-2-anel.jpg" muted loop playsinline preload="metadata" style="object-position:50% 34%"></video></span><span class="label"><b>Conversação</b><span>A forma abre a noite e sua voz ganha refrações.</span></span></a></li>
+      <li class="is-transition"><a href="#big-bang"><span class="shot"><video src="media/bb-capa-nucleo.mp4" poster="media/bb-capa-nucleo.jpg" muted loop playsinline preload="metadata" style="object-position:50% 46%"></video></span><span class="label"><b>Big bang</b><span>A passagem mais rápida, em preto e branco.</span></span></a></li>
+      <li><a href="#entrada"><span class="shot"><img src="media/entrada-1-areia-dourada.jpg" alt="" style="object-position:50% 72%"></span><span class="label"><b>Entrada</b><span>Crosta, pedras e areia dourada até os pratos.</span></span></a></li>
+      <li class="is-transition"><a href="#particula-materia"><span class="shot"><img src="media/agua-2-cascata.jpg" alt="" style="object-position:42% 55%"></span><span class="label"><b>Partícula para matéria</b><span>As partículas ganham corpo.</span></span></a></li>
+      <li><a href="#prato-principal"><span class="shot"><video src="media/principal-1-gotas.mp4" poster="media/principal-1-gotas.jpg" muted loop playsinline preload="metadata" style="object-position:50% 45%"></video></span><span class="label"><b>Prato principal</b><span>Formas orgânicas, água e ácido hialurônico.</span></span></a></li>
+    </ol>
+  </section>
+
+  <!-- ================================================= INÍCIO -->
+  <section class="slide opener" id="inicio" data-act="inicio" aria-label="Início">
+    <div class="copy">
+      <p class="statement reveal">Os convidados entram num espaço todo branco, sem cantos e sem objetos. A forma já está lá e os recebe com a sua voz.</p>
+      <dl class="pairs reveal">
+        <div><dt>Espaço</dt><dd>Branco e contínuo, sem cantos.</dd></div>
+        <div><dt>A forma</dt><dd>Presente desde a entrada, recebe cada convidado.</dd></div>
+        <div><dt>Som</dt><dd>White noise constante, envolvendo a sala.</dd></div>
+        <div><dt>Voz</dt><dd>A voz da forma, com eco, vinda de todos os lados.</dd></div>
+      </dl>
+    </div>
+    <div class="title-block reveal">
+      <p class="kind">Etapa</p>
+      <h2 class="name">Início</h2>
+    </div>
+  </section>
+
+  <section class="slide refs" id="inicio-referencias" data-act="inicio" aria-label="Início, referências">
+    <h2 class="head"><b>Início</b><span>Referências</span></h2>
+    <div class="grid">
+      <button type="button" class="tile" aria-label="Ampliar: mulher de costas diante de uma parede branca de luz"><img src="media/inicio-1-parede.jpg" alt="" style="object-position:50% 60%"></button>
+      <button type="button" class="tile" aria-label="Ampliar: sala branca com uma grande caixa de luz"><img src="media/inicio-2-caixa-de-luz.jpg" alt="" style="object-position:50% 50%"></button>
+      <button type="button" class="tile" aria-label="Ampliar: sala branca com discos de luz no chão"><img src="media/inicio-3-discos.jpg" alt="" style="object-position:50% 62%"></button>
+      <button type="button" class="tile" aria-label="Ampliar: homem diante de círculos pretos que se fundem"><video src="media/forma-1-circulos.mp4" poster="media/forma-1-circulos.jpg" muted loop playsinline preload="metadata" style="object-position:50% 36%"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: silhueta diante de uma moldura de luz"><img src="media/inicio-5-silhueta.jpg" alt="" style="object-position:50% 55%"></button>
+      <button type="button" class="tile" aria-label="Ampliar: mulher numa sala escura cercada por portais circulares"><video src="media/inicio-7-portais.mp4" poster="media/inicio-7-portais.jpg" muted loop playsinline preload="metadata" style="object-position:50% 55%"></video></button>
+    </div>
+  </section>
+
+  <!-- ================================================= CONVERSAÇÃO -->
+  <section class="slide opener" id="conversacao" data-act="conversacao" aria-label="Conversação">
+    <div class="copy">
+      <p class="statement reveal">Com todos à mesa, a forma abre o evento e conversa com os convidados. Agora a sua voz ganha refrações, e elas mudam os elementos na mesa.</p>
+      <dl class="pairs reveal">
+        <div><dt>Abre o evento</dt><dd>Apresenta a noite aos convidados.</dd></div>
+        <div><dt>Conversa</dt><dd>Fala com cada um e responde a eles.</dd></div>
+        <div><dt>Refrações</dt><dd>A voz da forma se desdobra em refrações.</dd></div>
+        <div><dt>Mesa</dt><dd>As refrações mudam os elementos presentes na mesa.</dd></div>
+      </dl>
+    </div>
+    <div class="title-block reveal">
+      <p class="kind">Etapa</p>
+      <h2 class="name">Conversação</h2>
+    </div>
+  </section>
+
+  <section class="slide refs" id="conversacao-referencias" data-act="conversacao" aria-label="Conversação, referências">
+    <h2 class="head"><b>Conversação</b><span>Referências</span></h2>
+    <div class="grid">
+      <button type="button" class="tile" aria-label="Ampliar: filamentos de luz branca que se formam no escuro"><video src="media/forma-1-filamentos.mp4" poster="media/forma-1-filamentos.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: anel líquido iridescente"><video src="media/forma-2-anel.mp4" poster="media/forma-2-anel.jpg" muted loop playsinline preload="metadata" style="object-position:50% 30%"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: esfera de água que vira cubo cristalino"><video src="media/forma-3-agua.mp4" poster="media/forma-3-agua.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: membrana de vidro que se dobra e se abre"><video src="media/forma-4-membrana.mp4" poster="media/forma-4-membrana.jpg" muted loop playsinline preload="metadata" style="object-position:50% 40%"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: forma branca que se abre como pétalas"><video src="media/forma-5-petalas.mp4" poster="media/forma-5-petalas.jpg" muted loop playsinline preload="metadata" style="object-position:50% 45%"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: disco de partículas girando numa sala escura"><video src="media/forma-6-portal.mp4" poster="media/forma-6-portal.jpg" muted loop playsinline preload="metadata" style="object-position:50% 42%"></video></button>
+    </div>
+  </section>
+
+  <!-- ================================================= BIG BANG -->
+  <section class="slide dark bb-title" id="big-bang" data-act="big-bang" aria-label="Big bang">
+    <video class="cover-film cover-landscape" src="media/bb-capa-paisagem.mp4" poster="media/bb-capa-paisagem.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    <video class="cover-film cover-portrait" src="media/bb-capa-nucleo.mp4" poster="media/bb-capa-nucleo.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    <div class="caption">
+      <p class="kind">Transição</p>
+      <h2 class="name">Big bang</h2>
+    </div>
+  </section>
+
+  <section class="slide dark bb-text" id="big-bang-transicao" data-act="big-bang" aria-label="Big bang, a transição">
+    <h2 class="head"><b>Big bang</b><span>A transição</span></h2>
+    <p class="lead reveal">
+      <strong>A parte mais rápida do jantar.</strong>
+      <span>Começa quando a conversação termina.</span>
+    </p>
+    <ul class="lines">
+      <li>Movimentos matemáticos. <span>Precisos, repetidos, acelerados.</span></li>
+      <li>Formas rápidas. <span>Surgem e desaparecem em segundos.</span></li>
+      <li>Transformação. <span>Uma forma vira outra sem parar.</span></li>
+      <li>Grave. <span>Um som que se sente no corpo.</span></li>
+      <li>Preto e branco. <span>Só luz e sombra, sem cor.</span></li>
+    </ul>
+  </section>
+
+  <section class="slide dark refs" id="big-bang-referencias" data-act="big-bang" aria-label="Big bang, referências">
+    <h2 class="head"><b>Big bang</b><span>Referências</span></h2>
+    <div class="grid">
+      <button type="button" class="tile" style="background:#000" aria-label="Ampliar: esfera metálica com escamas incandescentes"><video src="media/bb-1-esfera.mp4" poster="media/bb-1-esfera.jpg" muted loop playsinline preload="metadata" style="object-fit:contain"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: núcleo de luz que se abre em fragmentos"><video src="media/bb-2-nucleo.mp4" poster="media/bb-2-nucleo.jpg" muted loop playsinline preload="metadata" style="object-position:50% 45%"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: campo de estrelas numa cúpula"><video src="media/bb-3-cupula.mp4" poster="media/bb-3-cupula.jpg" muted loop playsinline preload="metadata" style="object-position:50% 35%"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: anel escuro, esfera de vidro e explosão de luz"><video src="media/bb-4-cosmos.mp4" poster="media/bb-4-cosmos.jpg" muted loop playsinline preload="metadata"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: formas geométricas radiais que se multiplicam"><video src="media/bb-5-caleidoscopio.mp4" poster="media/bb-5-caleidoscopio.jpg" muted loop playsinline preload="metadata"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: rocha negra brilhante girando no ar"><video src="media/bb-6-rocha.mp4" poster="media/bb-6-rocha.jpg" muted loop playsinline preload="metadata" style="object-position:50% 45%"></video></button>
+    </div>
+  </section>
+  <!-- ================================================= ENTRADA -->
+  <section class="slide opener" id="entrada" data-act="entrada" aria-label="Entrada">
+    <div class="copy">
+      <p class="statement reveal">Com o impacto do big bang surgem a crosta e as pedras, que são também a pele sem cuidado. Por entre elas correm areias douradas, que seguem até os pratos onde a entrada é servida.</p>
+      <dl class="pairs reveal">
+        <div><dt>Crosta e pedras</dt><dd>Nascem do impacto do big bang.</dd></div>
+        <div><dt>Pele sem cuidado</dt><dd>Áspera, rachada, mineral.</dd></div>
+        <div><dt>Areias douradas</dt><dd>Passam pelas pedras e seguem até os pratos.</dd></div>
+        <div><dt>Nos pratos</dt><dd>A entrada é servida, com formas minerais.</dd></div>
+      </dl>
+    </div>
+    <div class="title-block reveal">
+      <p class="kind">Etapa</p>
+      <h2 class="name">Entrada</h2>
+    </div>
+  </section>
+
+  <section class="slide refs" id="entrada-referencias" data-act="entrada" aria-label="Entrada, referências">
+    <h2 class="head"><b>Entrada</b><span>Referências</span></h2>
+    <div class="grid">
+      <button type="button" class="tile" aria-label="Ampliar: linhas de luz dourada correndo entre formações de pedra"><img src="media/entrada-1-areia-dourada.jpg" alt="" style="object-position:50% 68%"></button>
+      <button type="button" class="tile" aria-label="Ampliar: raio de luz caindo dentro de uma torre de pedra"><img src="media/entrada-2-fenda-de-luz.jpg" alt="" style="object-position:50% 72%"></button>
+      <button type="button" class="tile" aria-label="Ampliar: luz passando por uma fenda de rocha negra"><img src="media/entrada-3-rocha.jpg" alt="" style="object-position:50% 45%"></button>
+      <button type="button" class="tile" aria-label="Ampliar: dedo tocando a areia e formando ondas"><img src="media/entrada-4-mao-na-areia.jpg" alt="" style="object-position:50% 42%"></button>
+      <button type="button" class="tile" aria-label="Ampliar: ondulações na areia cinza"><img src="media/entrada-5-areia.jpg" alt="" style="object-position:50% 50%"></button>
+      <button type="button" class="tile" aria-label="Ampliar: paisagem de partículas com caverna e água"><video src="media/entrada-6-paisagem.mp4" poster="media/entrada-6-paisagem.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
+    </div>
+  </section>
+  <section class="slide dark black plates" id="entrada-pratos" data-act="entrada" aria-label="Entrada, os pratos">
+    <div class="plates-copy">
+      <h2 class="head"><b>Entrada</b><span>Os pratos</span></h2>
+      <div></div>
+      <div class="copy">
+        <p class="statement reveal">Nos pratos, a areia dourada se organiza em formas matemáticas. Quem move os grãos é o som: a vibração empurra a areia até ela desenhar as figuras.</p>
+        <dl class="pairs reveal">
+          <div><dt>Som</dt><dd>A vibração move fisicamente a areia no prato.</dd></div>
+          <div><dt>Formas</dt><dd>Geometrias precisas que nascem de um movimento orgânico.</dd></div>
+          <div><dt>Em transformação</dt><dd>Quando o som muda, o desenho muda com ele.</dd></div>
+        </dl>
+      </div>
+    </div>
+    <div class="sand">
+      <button type="button" class="tile" aria-label="Ampliar: areia vibrando em círculo, hexágono, pentágono, quadrado e triângulo"><video src="media/pratos-1-geometrias.mp4" poster="media/pratos-1-geometrias.jpg" muted loop playsinline preload="metadata" style="--zoom:1.4"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: areia vibrando numa mandala em transformação"><video src="media/pratos-2-mandala.mp4" poster="media/pratos-2-mandala.jpg" muted loop playsinline preload="metadata" style="--zoom:1.3"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: areia dourada girando em espiral"><video src="media/pratos-3-espiral.mp4" poster="media/pratos-3-espiral.jpg" muted loop playsinline preload="metadata"></video></button>
+    </div>
+  </section>
+  <!-- ================================================= TRANSIÇÃO: PARTÍCULA PARA MATÉRIA -->
+  <section class="slide dark bb-title fluid" id="particula-materia" data-act="materia" aria-label="Partícula para matéria">
+    <video class="cover-film" src="media/agua-1-sala.mp4" poster="media/agua-1-sala.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    <div class="caption">
+      <p class="kind">Transição</p>
+      <h2 class="name">Partícula<br>para matéria</h2>
+    </div>
+  </section>
+  <section class="slide dark refs" id="particula-materia-referencias" data-act="materia" aria-label="Partícula para matéria, referências">
+    <h2 class="head"><b>Partícula para matéria</b><span>Referências</span></h2>
+    <div class="grid trio">
+      <button type="button" class="tile tall" aria-label="Ampliar: cascata de areia dourada caindo diante do público"><img src="media/agua-2-cascata.jpg" alt="" style="object-position:50% 55%"></button>
+      <button type="button" class="tile" aria-label="Ampliar: sala coberta por projeções de água azul"><video src="media/agua-1-sala.mp4" poster="media/agua-1-sala.jpg" muted loop playsinline preload="metadata"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: esfera de partículas azuis se desfazendo"><video src="media/agua-3-esfera.mp4" poster="media/agua-3-esfera.jpg" muted loop playsinline preload="metadata"></video></button>
+    </div>
+  </section>
+  <!-- ================================================= PRATO PRINCIPAL -->
+  <section class="slide opener" id="prato-principal" data-act="principal" aria-label="Prato principal">
+    <div class="copy">
+      <p class="statement reveal">Depois da transição, a matéria chega à mesa. O prato principal é feito de formas orgânicas e água: a pele que antes estava seca agora é hidratada, como faz o ácido hialurônico.</p>
+      <dl class="pairs reveal">
+        <div><dt>Formas orgânicas</dt><dd>Gotas, curvas e superfícies que se fundem.</dd></div>
+        <div><dt>Água</dt><dd>Em tudo, na mesa e nos pratos.</dd></div>
+        <div><dt>Ácido hialurônico</dt><dd>A molécula que segura a água na pele.</dd></div>
+        <div><dt>Nos pratos</dt><dd>O prato principal servido em formas orgânicas e água.</dd></div>
+      </dl>
+    </div>
+    <div class="title-block reveal">
+      <p class="kind">Etapa</p>
+      <h2 class="name two-lines">Prato<br>principal</h2>
+    </div>
+  </section>
+
+  <section class="slide refs" id="prato-principal-referencias" data-act="principal" aria-label="Prato principal, referências">
+    <h2 class="head"><b>Prato principal</b><span>Referências</span></h2>
+    <div class="grid duo">
+      <button type="button" class="tile" aria-label="Ampliar: gotas de vidro líquido que se fundem em anéis"><video src="media/principal-1-gotas.mp4" poster="media/principal-1-gotas.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: esfera de vidro com matéria orgânica que muda de cor"><video src="media/principal-2-esfera.mp4" poster="media/principal-2-esfera.jpg" muted loop playsinline preload="metadata" style="object-position:50% 48%"></video></button>
+    </div>
+  </section>
+</main>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Referência ampliada" hidden>
+  <div class="lb-bar">
+    <span id="lb-count"></span>
+    <button type="button" id="lb-close">Fechar</button>
+  </div>
+  <div class="lb-stage" id="lb-stage"></div>
+  <div class="lb-bar">
+    <button type="button" id="lb-prev">Anterior</button>
+    <button type="button" id="lb-next">Próxima</button>
+  </div>
+</div>
+
+<script>
+(() => {
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const navLinks = Array.from(document.querySelectorAll(".nav a"));
+  const fsBtn = document.getElementById("fs");
+  const lb = document.getElementById("lb");
+  const stage = document.getElementById("lb-stage");
+  const lbCount = document.getElementById("lb-count");
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+  const videos = Array.from(document.querySelectorAll(".slide video"));
+
+  const play = (v) => { try { const p = v.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} };
+
+  // ---------- which slide is on screen (drives the act navigation and the arrow keys)
+  let current = 0;
+  const ratios = new Map();
+  const onScreen = new IntersectionObserver((entries) => {
+    entries.forEach((e) => ratios.set(e.target, e.intersectionRatio));
+    let best = current, bestRatio = -1;
+    slides.forEach((s, i) => { const r = ratios.get(s) || 0; if (r > bestRatio) { bestRatio = r; best = i; } });
+    current = best;
+    const act = slides[current].dataset.act;
+    navLinks.forEach((a) => {
+      if (a.dataset.act === act) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+  }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+  slides.forEach((s) => onScreen.observe(s));
+
+  // ---------- films play only while they are on screen
+  const filmWatch = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      const v = e.target;
+      if (e.isIntersecting && lb.hidden) { v.preload = "auto"; play(v); }
+      else v.pause();
+    });
+  }, { threshold: 0.2 });
+  videos.forEach((v) => filmWatch.observe(v));
+  const rewatchFilms = () => videos.forEach((v) => { filmWatch.unobserve(v); filmWatch.observe(v); });
+
+  // a film that should be playing but has stopped advancing is nudged forward and played again;
+  // one that is still buffering is left alone so a slow connection can finish loading it
+  const lastTime = new WeakMap();
+  setInterval(() => {
+    if (!lb.hidden || document.hidden) return;
+    videos.forEach((v) => {
+      const r = v.getBoundingClientRect();
+      const shown = (Math.min(r.bottom, innerHeight) - Math.max(r.top, 0)) / Math.max(1, r.height);
+      if (shown < 0.2) return;
+      const t = v.currentTime;
+      if (v.paused) play(v);
+      else if (lastTime.get(v) === t && v.readyState >= 3) { try { v.currentTime = t + 0.01; } catch (e) {} play(v); }
+      lastTime.set(v, t);
+    });
+  }, 2500);
+
+  // ---------- arrow keys step through slides; everything else is the browser's own scrolling
+  function goTo(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    slides[n].scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
+  }
+  addEventListener("keydown", (e) => {
+    if (!lb.hidden || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.key === "ArrowRight") { e.preventDefault(); goTo(current + 1); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); goTo(current - 1); }
+    else if (e.key === "f" || e.key === "F") { toggleFullscreen(); }
+  });
+
+  // ---------- fullscreen
+  function toggleFullscreen() {
+    try {
+      if (!document.fullscreenElement) {
+        const r = document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+        if (r && r.catch) r.catch(() => {});
+      } else if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    } catch (e) {}
+  }
+  fsBtn.addEventListener("click", toggleFullscreen);
+  if (!document.fullscreenEnabled) fsBtn.hidden = true;
+  document.addEventListener("fullscreenchange", () => {
+    fsBtn.textContent = document.fullscreenElement ? "Sair da tela cheia" : "Tela cheia";
+  });
+
+  // ---------- enlarged view: the whole frame, uncropped, with the player's controls
+  let group = [], at = 0, opener = null;
+  function render() {
+    stage.textContent = "";
+    const src = group[at].querySelector("img, video");
+    let el;
+    if (src.tagName === "IMG") {
+      el = document.createElement("img");
+      el.src = src.currentSrc || src.src;
+      el.alt = (group[at].getAttribute("aria-label") || "").replace(/^Ampliar: /, "");
+    } else {
+      el = document.createElement("video");
+      el.src = src.currentSrc || src.src; el.poster = src.poster;
+      el.muted = true; el.loop = true; el.playsInline = true; el.controls = true; el.autoplay = true;
+    }
+    stage.appendChild(el);
+    if (el.tagName === "VIDEO") play(el);
+    lbCount.textContent = (at + 1) + " de " + group.length;
+  }
+  function openView(tile) {
+    const slide = tile.closest(".slide");
+    group = Array.from(slide.querySelectorAll(".tile"));
+    at = group.indexOf(tile); opener = tile;
+    videos.forEach((v) => v.pause());
+    lb.classList.toggle("is-dark", slide.classList.contains("dark"));
+    lb.hidden = false;
+    document.documentElement.style.overflow = "hidden";
+    render();
+    document.getElementById("lb-close").focus();
+  }
+  function closeView() {
+    stage.textContent = "";
+    lb.hidden = true;
+    document.documentElement.style.overflow = "";
+    rewatchFilms();
+    if (opener) opener.focus({ preventScroll: true });
+  }
+  const step = (d) => { at = (at + d + group.length) % group.length; render(); };
+
+  document.querySelectorAll(".tile").forEach((t) => t.addEventListener("click", () => openView(t)));
+  document.getElementById("lb-close").addEventListener("click", closeView);
+  document.getElementById("lb-prev").addEventListener("click", () => step(-1));
+  document.getElementById("lb-next").addEventListener("click", () => step(1));
+  addEventListener("keydown", (e) => {
+    if (lb.hidden) return;
+    if (e.key === "Escape") { e.preventDefault(); closeView(); }
+    else if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
+  });
+})();
+</script>
+<script>
+(() => {
+  // The room breathes: two warm glows swell and settle on an eight second breath, and fine grains of
+  // matter drift from scatter into a loose ring on each inhale. Nothing literal, nothing fast.
+  const canvas = document.querySelector(".breath");
+  if (!canvas || !canvas.getContext) return;
+  const ctx = canvas.getContext("2d");
+  const TAU = Math.PI * 2;
+  const still = matchMedia("(prefers-reduced-motion: reduce)");
+  let w = 0, h = 0, raf = 0, running = false;
+  const start = performance.now();
+
+  const grains = Array.from({ length: 240 }, (_, i) => ({
+    a: Math.random() * TAU,
+    loose: 0.16 + Math.random() * 0.4,
+    ring: 0.2 + (i % 4) * 0.028 + Math.random() * 0.012,
+    drift: (0.012 + Math.random() * 0.03) * (i % 2 ? 1 : -1),
+    size: 0.8 + Math.random() * 1.8,
+    phase: Math.random() * TAU,
+  }));
+
+  function resize() {
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    w = canvas.clientWidth; h = canvas.clientHeight;
+    canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function glow(x, y, r, rgb, alpha) {
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, "rgba(" + rgb + "," + alpha + ")");
+    g.addColorStop(0.55, "rgba(" + rgb + "," + alpha * 0.35 + ")");
+    g.addColorStop(1, "rgba(" + rgb + ",0)");
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
+  }
+
+  function draw(now) {
+    const t = (now - start) / 1000;
+    const breath = (1 - Math.cos((t * TAU) / 8)) / 2;           // 0 exhaled, 1 inhaled
+    const portrait = h > w;
+    const cx = w * (portrait ? 0.55 : 0.64), cy = h * (portrait ? 0.34 : 0.42);
+    const s = Math.min(w, h) * (portrait ? 1.05 : 1);
+
+    ctx.clearRect(0, 0, w, h);
+    glow(cx, cy, s * (0.46 + 0.06 * breath), "228,198,136", 0.66 + 0.24 * breath);
+    glow(cx - s * 0.07, cy + s * 0.05, s * (0.26 + 0.05 * (1 - breath)), "214,142,52", 0.26 + 0.16 * breath);
+
+    for (const g of grains) {
+      const r = g.loose + (g.ring - g.loose) * breath * 0.9;
+      const ang = g.a + t * g.drift;
+      const x = cx + Math.cos(ang) * r * s * 1.15;
+      const y = cy + Math.sin(ang) * r * s * 0.92;
+      const alpha = 0.3 + 0.55 * breath * (0.55 + 0.45 * Math.sin(t * 0.6 + g.phase));
+      ctx.fillStyle = "rgba(150,98,34," + alpha.toFixed(3) + ")";
+      ctx.beginPath(); ctx.arc(x, y, g.size, 0, TAU); ctx.fill();
+    }
+    if (running) raf = requestAnimationFrame(draw);
+  }
+
+  function play() {
+    if (running) return;
+    if (still.matches) { draw(start + 4000); return; }                 // one calm, inhaled frame
+    running = true; raf = requestAnimationFrame(draw);
+  }
+  function pause() { running = false; cancelAnimationFrame(raf); }
+
+  resize();
+  addEventListener("resize", () => { resize(); if (!running) draw(start + 4000); });
+  new IntersectionObserver((entries) => {
+    entries.forEach((e) => (e.isIntersecting ? play() : pause()));
+  }).observe(canvas);
+  document.addEventListener("visibilitychange", () => (document.hidden ? pause() : play()));
+  draw(start + 4000);
+})();
+</script>
+</body>
+</html>
