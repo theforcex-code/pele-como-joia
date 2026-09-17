@@ -264,6 +264,8 @@
   /* ------------------------------------------------ small screens */
   /* openers: the statement starts below the act navigation, which now spans most of the top line */
   @media (min-width: 901px) { .opener .copy { margin-top: calc(var(--small) * 1.3 + var(--pad) * 0.8); } }
+  /* plates side by side: the films also start below the act navigation */
+  @media (min-aspect-ratio: 5/4) { .plates .sand { margin-top: calc(var(--small) * 1.3 + var(--pad) * 0.8); } }
   @media (max-width: 900px) {
     .slide:not(.bb-title) { padding-top: calc(var(--pad) + 36px); }   /* room for the act navigation */
     .copy { max-width: none; }
@@ -616,7 +618,7 @@
         <div><dt>Pele</dt><dd>Revelada, macia e luminosa.</dd></div>
         <div><dt>Seda</dt><dd>Dobras, brilho e movimento suave.</dd></div>
         <div><dt>Luz</dt><dd>Reflexos que correm pela superfície.</dd></div>
-        <div><dt>Nos pratos</dt><dd>A sobremesa servida em dobras e brilho de seda.</dd></div>
+        <div><dt>Nos pratos</dt><dd>A sobremesa se abre como uma flor de seda.</dd></div>
       </dl>
     </div>
     <div class="title-block reveal">
@@ -627,11 +629,32 @@
 
   <section class="slide refs" id="sobremesa-referencias" data-act="sobremesa" aria-label="Sobremesa, referências">
     <h2 class="head"><b>Sobremesa</b><span>Referências</span></h2>
-    <div class="grid four">
+    <div class="grid">
+      <button type="button" class="tile" aria-label="Ampliar: sala de concerto coberta por grandes panos de seda"><img src="media/sobremesa-5-sala-seda.jpg" alt="" style="object-position:50% 62%"></button>
       <button type="button" class="tile" aria-label="Ampliar: pele com textura de seda e pontos de brilho"><img src="media/sobremesa-1-seda.jpg" alt="" style="object-position:50% 40%"></button>
       <button type="button" class="tile" aria-label="Ampliar: seda branca ondulando"><video src="media/sobremesa-4-seda-branca.mp4" poster="media/sobremesa-4-seda-branca.jpg" muted loop playsinline preload="metadata"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: esculturas de seda penduradas no teto de um pavilhão"><video src="media/sobremesa-6-pavilhao.mp4" poster="media/sobremesa-6-pavilhao.jpg" muted loop playsinline preload="metadata" style="object-position:50% 40%"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: dobras de seda cor de âmbar em movimento"><video src="media/sobremesa-2-dobras.mp4" poster="media/sobremesa-2-dobras.jpg" muted loop playsinline preload="metadata"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: flor em preto e branco com reflexos de arco-íris"><video src="media/sobremesa-3-flor.mp4" poster="media/sobremesa-3-flor.jpg" muted loop playsinline preload="metadata"></video></button>
+    </div>
+  </section>
+  <section class="slide dark black plates" id="sobremesa-pratos" data-act="sobremesa" aria-label="Sobremesa, os pratos">
+    <div class="plates-copy">
+      <h2 class="head"><b>Sobremesa</b><span>Os pratos</span></h2>
+      <div></div>
+      <div class="copy">
+        <p class="statement reveal">Nos pratos, a sobremesa se abre como uma flor de seda. As pétalas se desdobram devagar e deixam a luz passar.</p>
+        <dl class="pairs reveal">
+          <div><dt>Flor</dt><dd>Pétalas de tecido que se abrem.</dd></div>
+          <div><dt>Luz</dt><dd>Atravessa a seda por dentro.</dd></div>
+          <div><dt>Movimento</dt><dd>A forma abre e fecha, viva.</dd></div>
+        </dl>
+      </div>
+    </div>
+    <div class="sand">
+      <button type="button" class="tile" aria-label="Ampliar: luminárias de tecido em forma de flor no teto"><video src="media/sobremesa-pratos-1-luminarias.mp4" poster="media/sobremesa-pratos-1-luminarias.jpg" muted loop playsinline preload="metadata" style="object-fit:cover"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: flor de papel que abre e fecha nas mãos"><video src="media/sobremesa-pratos-2-flor-cinetica.mp4" poster="media/sobremesa-pratos-2-flor-cinetica.jpg" muted loop playsinline preload="metadata" style="object-fit:cover;object-position:50% 45%"></video></button>
+      <button type="button" class="tile" aria-label="Ampliar: luminária em forma de flor desabrochando acesa"><video src="media/sobremesa-pratos-3-flor-luz.mp4" poster="media/sobremesa-pratos-3-flor-luz.jpg" muted loop playsinline preload="metadata" style="object-fit:cover;object-position:50% 35%"></video></button>
     </div>
   </section>
   <!-- ================================================= FINAL -->
