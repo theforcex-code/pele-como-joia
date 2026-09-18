@@ -184,6 +184,7 @@
   .grid.duo { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
   .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
   .grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
+  .grid.five { grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
   .grid.cols4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .grid.cols5, .grid.rhythm { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   /* one tall image beside two wide films stacked */
@@ -290,6 +291,8 @@
   @media (orientation: portrait) and (max-width: 900px) {
     .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); }
     .grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
+    .grid.five { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); }
+    .grid.five .tile:last-child { grid-column: 1 / -1; }   /* o quinto bloco fecha a grade numa linha só */
     .grid.rhythm { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(4, minmax(0, 1fr)); }
     .grid.rhythm .tall { grid-row: auto; }
     .grid.rhythm .tile:first-child { grid-column: 1 / -1; }   /* one wide on top, then pairs */
@@ -306,10 +309,11 @@
     .title-block, .lines { grid-row: auto; }
     .lead { margin-top: 0; }
     .refs, .map { height: auto; }
-    .grid, .grid.trio, .grid.duo, .grid.four, .grid.mix, .grid.three, .grid.rhythm, .grid.cols4, .grid.cols5 { grid-template-rows: none; grid-auto-rows: auto; }
+    .grid, .grid.trio, .grid.duo, .grid.four, .grid.five, .grid.mix, .grid.three, .grid.rhythm, .grid.cols4, .grid.cols5 { grid-template-rows: none; grid-auto-rows: auto; }
     .grid.cols5 { grid-auto-flow: dense; }
     .grid .tile { aspect-ratio: 4 / 5; }
-    .grid.four .tile, .grid.three .tile:not(:first-child) { aspect-ratio: 9 / 16; }
+    .grid.four .tile, .grid.five .tile, .grid.three .tile:not(:first-child) { aspect-ratio: 9 / 16; }
+    .grid.five .tile:last-child { aspect-ratio: 16 / 10; }
     .grid .tall { aspect-ratio: auto; }            /* spans two rows of 4:5 tiles */
     .grid .wide { aspect-ratio: 16 / 10; }
     /* mix on a phone: image, wide film, the two vertical films side by side, wide film */
@@ -544,11 +548,10 @@
 
   <section class="slide refs" id="prato-principal-referencias" data-act="principal" aria-label="Prato principal, referências">
     <h2 class="head"><b>Prato principal</b><span>Referências</span></h2>
-    <div class="grid cols4">
-      <button type="button" class="tile tall" aria-label="Ampliar: formas líquidas prateadas que se dobram e se fundem"><video src="media/principal-3-liquido.mp4" poster="media/principal-3-liquido.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
+    <div class="grid five">
+      <button type="button" class="tile" aria-label="Ampliar: formas líquidas prateadas que se dobram e se fundem"><video src="media/principal-3-liquido.mp4" poster="media/principal-3-liquido.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: gotas de vidro líquido que se fundem em anéis"><video src="media/principal-1-gotas.mp4" poster="media/principal-1-gotas.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: bolhas subindo dentro de um gel transparente"><video src="media/principal-4-bolhas.mp4" poster="media/principal-4-bolhas.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
-      <button type="button" class="tile tall" aria-label="Ampliar: forma orgânica verde crescendo no escuro"><video src="media/principal-5-organico.mp4" poster="media/principal-5-organico.jpg" muted loop playsinline preload="metadata" style="object-position:50% 50%"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: esfera de vidro com matéria orgânica que muda de cor"><video src="media/principal-2-esfera.mp4" poster="media/principal-2-esfera.jpg" muted loop playsinline preload="metadata"></video></button>
       <button type="button" class="tile" aria-label="Ampliar: gota de vidro líquido girando no escuro"><video src="media/pratos-materia-gota.mp4" poster="media/pratos-materia-gota.jpg" muted loop playsinline preload="metadata"></video></button>
     </div>
