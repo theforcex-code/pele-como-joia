@@ -1,0 +1,39 @@
+# Publica o site na Vercel a cada push na branch main.
+# Assim dá para atualizar de qualquer computador: basta editar e dar push
+# (ou editar o index.html direto pelo site do GitHub).
+#
+# Precisa de um segredo no repositório chamado VERCEL_TOKEN:
+#   1. criar o token em https://vercel.com/account/settings/tokens
+#   2. guardar em https://github.com/theforcex-code/pele-como-joia/settings/secrets/actions/new
+name: Publicar na Vercel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: publicar
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: team_po5aMsZNVm8WVuKT4J0C56KF
+      VERCEL_PROJECT_ID: prj_KUsyNu1m9zyZXclLAu9QJEqSuuzR
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Conferir o token
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "Falta o segredo VERCEL_TOKEN no repositório."
+            echo "Crie o token em https://vercel.com/account/settings/tokens"
+            echo "e guarde em Settings > Secrets and variables > Actions > New repository secret."
+            exit 1
+          fi
+
+      - name: Publicar em produção
+        run: npx --yes vercel@latest deploy --prod --yes --token "$VERCEL_TOKEN"
